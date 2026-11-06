@@ -1,0 +1,5 @@
+data/
+.git/
+__pycache__/
+results/logs/
+results/per_image_*.jsonl
