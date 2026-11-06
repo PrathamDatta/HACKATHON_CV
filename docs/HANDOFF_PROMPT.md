@@ -1,0 +1,22 @@
+You are continuing a computer-vision hackathon project on my laptop (Windows or Linux; NVIDIA RTX 5080, 64 GB RAM, Intel Core Ultra 9). A previous Claude session built everything on a CPU-only cloud box; your job is to run the parts that need a GPU and local resources, then hand the results back. Work autonomously, do not ask me questions unless something is truly blocked.
+
+## Project
+Problem P4 of "Computer Vision Hackathon 2026": **edge-preserving depth map upsampling and refinement** (sparse or low-resolution depth -> dense high-resolution depth with RGB guidance, without texture-copying; 2x/4x/8x; noise and missing values). Judging rubric (100 pts): evaluation metrics 25 (ranked against other teams' average metrics: RMSE, MAE, PSNR, SSIM, boundary accuracy, per-scale results, latency, memory), demo and viva 25, implementation 20, UI/deployment 15 (live URL, answers in about 10 s), documentation 15 (README reproduces results, honest limitations). **Maximising the metrics is the goal here; do not downgrade model size, training length, evaluation size or any quality setting to save time.**
+
+Repo: https://github.com/PrathamDatta/HACKATHON_CV, branch `claude/practical-pasteur-0j1ipi` (everything is already pushed there). Read `README.md`, `docs/DESIGN.md`, `docs/GPU_TRAINING.md` first. The code is the `depthup/` package; `scripts/gpu_pipeline.py` automates all local work.
+
+## Do this, in order
+1. Get the repo: `git clone` and `git checkout claude/practical-pasteur-0j1ipi` (or, if I give you a zip, unzip it). Create a venv (Python 3.11/3.12) and follow section 1 of `docs/GPU_TRAINING.md`. The RTX 5080 needs a **CUDA 12.8 (cu128) PyTorch build**; verify `torch.cuda.is_available()` is True and the device is the 5080 before anything else. Fix driver/wheel issues if not.
+2. Run `python -m pytest -q tests` (must pass) and the smoke run from section 2 of the guide. Fix any breakage you find (Windows path/multiprocessing issues are plausible), keeping changes minimal and listing them in your final report. Then delete `results/gpu_run/` and `weights/*_L*.pt` produced by the smoke run.
+3. Launch the real run in the **background** with logs to a file: `python scripts/gpu_pipeline.py` (profile `max`; set `TEAM` and `USNS` environment variables first if I gave them to you). It takes many hours: poll `results/gpu_run/*.log` periodically (do not block in a foreground sleep), report progress briefly, and if it crashes read the log, fix the cause and simply rerun the same command (finished stages are skipped, training resumes).
+4. When it prints `ALL DONE`, sanity-check before reporting:
+   * `eval_P4_T01.md`: the GPU-trained arms (`*_L`, `auto_L_tta`, `auto_E_tta`) should beat the small CPU-trained arms (`dl_only`, `hybrid`, `auto`) on RMSE in every protocol/scale. If any do not, investigate (look at the `3_train_*` logs: did validation RMSE keep falling? NaNs? bf16 issues?) and, if there is a clear fix (more steps, lower LR), rerun that stage. Do not cherry-pick: report what you actually measured, including cases where the hybrid loses to deep-only.
+   * `results/efficiency.json`: report CPU median latency at 480x640 for `auto`, `auto_L`. The live app must answer in about 10 s on a small CPU host, so if the large model is slower than about 6 s on CPU, say so clearly.
+   * Never train on frames 1000-1448 (the test split). Do not touch `data/` contents in git (it is git-ignored). Never commit secrets.
+5. Commit and push to the same branch: `git add -A && git commit -m "GPU-trained models, full evaluation, regenerated docs" && git push origin claude/practical-pasteur-0j1ipi` (weights, `results/*.json*`, `docs`, `eval_P4_*.md`, `README.md`). If pushing is impossible, tell me so I can use `gpu_results.zip` (created by the run) instead.
+6. Final message to me (this is what I will paste back into my original Claude session): a compact table of RMSE (cm) per protocol and scale for bicubic, small Auto, Auto-L, Auto-L + flip TTA, and the ensemble arm; the CPU latencies; how long each stage took; every deviation from the guide or code change you made; and anything surprising. Also tell me the batch size and number of steps the probe chose.
+
+## Rules
+* Keep the method design as is. Hyper-parameter reruns are fine; new architectures are not (they would invalidate the documented ablations).
+* Be honest in all numbers and prose; the README's generated tables must match `results/`.
+* Stay within this repository and do not delete anything that is committed.

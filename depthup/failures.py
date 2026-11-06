@@ -40,7 +40,7 @@ def load(protocol):
     return [json.loads(l) for l in open(ROOT / "results" / f"per_image_{protocol}.jsonl")]
 
 
-def main():
+def main(kind: str = "hybrid"):
     FIG.mkdir(parents=True, exist_ok=True)
     out = {"correlations": {}, "cases": []}
     for prot, scale in (("clean", 8), ("noisy+holes", 4)):
@@ -48,7 +48,7 @@ def main():
             rows = load(prot)
         except FileNotFoundError:
             continue
-        hy = {r["idx"]: r for r in rows if r["method"] == "hybrid" and r["scale"] == scale}
+        hy = {r["idx"]: r for r in rows if r["method"] == kind and r["scale"] == scale}
         bi = {r["idx"]: r for r in rows if r["method"] == "bicubic" and r["scale"] == scale}
         idxs = sorted(set(hy) & set(bi))
         stats = {i: image_stats(*data.get_pair(i)) for i in idxs}
@@ -76,7 +76,7 @@ def main():
             lr, valid = degrade.degrade(dep, degrade.Degradation(scale=scale, **degrade.PROTOCOLS[prot]),
                                         np.random.default_rng(__import__("zlib").crc32(f"{idx}-{scale}-{prot}".encode())))
             pb = pipeline.METHODS["bicubic"](lr, valid, rgb, scale)
-            ph, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True)
+            ph, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True, kind=kind)
             lo, hi = float(dep.min()), float(dep.max())
             fig, ax = plt.subplots(2, 4, figsize=(13, 7))
             panels = [("RGB", rgb), ("GT depth", viz.colorize(dep, lo, hi)), ("bicubic", viz.colorize(pb, lo, hi)), ("hybrid", viz.colorize(ph, lo, hi)),
@@ -95,4 +95,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse, os
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--kind", default="hybrid", help="hybrid or hybrid_L")
+    ap.add_argument("--device", default="cpu")
+    a = ap.parse_args()
+    os.environ["DEPTHUP_DEVICE"] = a.device
+    main(a.kind)

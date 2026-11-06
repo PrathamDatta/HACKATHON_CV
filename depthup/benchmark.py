@@ -21,6 +21,8 @@ rgb, dep = data.get_pair(1005)
 lr, valid = degrade.degrade(dep, degrade.Degradation(scale=scale), np.random.default_rng(0))
 if method in ('hybrid', 'dl_only', 'auto'):
     pipeline.load_model('dl_only'); pipeline.load_model('hybrid')
+if method in ('hybrid_L', 'dl_only_L', 'auto_L'):
+    pipeline.load_model('dl_only_L'); pipeline.load_model('hybrid_L')
 pipeline.METHODS[method](lr, valid, rgb, scale)          # warm-up
 base = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
 ts = []
@@ -38,9 +40,11 @@ def main(threads: int = 4):
            "weights_kb": {k: (ROOT / "weights" / f"{k}.pt").stat().st_size / 1024
                           for k in ("hybrid", "dl_only") if (ROOT / "weights" / f"{k}.pt").exists()},
            "image": "480x640", "threads": threads, "timing": {}}
-    for m in ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto"]:
+    arms = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto"]
+    arms += [m for m in ("dl_only_L", "hybrid_L", "auto_L") if (ROOT / "weights" / f"{m.replace('auto', 'hybrid')}.pt").exists()]
+    for m in arms:
         for s in (2, 4, 8):
-            r = subprocess.run([sys.executable, "-I", "-c", CHILD % (str(ROOT), threads), m, str(s)], capture_output=True, text=True)
+            r = subprocess.run([sys.executable, "-I", "-c", CHILD % (str(ROOT), threads), m, str(s)], capture_output=True, text=True, env={**__import__('os').environ, 'DEPTHUP_DEVICE': 'cpu'})
             if r.returncode:
                 print(m, s, r.stderr[-300:])
                 continue

@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import multiprocessing as mp
+import os
 import zlib
 from pathlib import Path
 
@@ -67,8 +68,9 @@ def load_rows(protocol):
 
 def summarize(rows):
     """Mean of every metric per (protocol, scale, method)."""
+    uniq = {(r["idx"], r["scale"], r["protocol"], r["method"]): r for r in rows}      # re-runs never double-count
     agg: dict = {}
-    for r in rows:
+    for r in uniq.values():
         agg.setdefault((r["protocol"], r["scale"], r["method"]), []).append(r)
     out = {}
     for k, v in agg.items():
@@ -84,6 +86,8 @@ if __name__ == "__main__":
     ap.add_argument("--n", type=int, default=449)
     ap.add_argument("--methods", nargs="+", default=ALL_METHODS)
     ap.add_argument("--procs", type=int, default=4)
+    ap.add_argument("--device", default="cpu", help="cpu | cuda (GPU inference for the learned arms)")
     ap.add_argument("--append", action="store_true", help="append rows (use after relabelling an old method)")
     a = ap.parse_args()
+    os.environ["DEPTHUP_DEVICE"] = a.device
     run(a.protocol, a.scales, a.n, a.methods, a.procs, append=a.append)

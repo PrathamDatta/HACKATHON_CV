@@ -18,11 +18,14 @@ from .evaluate import summarize
 
 ROOT = Path(__file__).resolve().parents[1]
 RES, FIG = ROOT / "results", ROOT / "docs" / "figures"
-ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid", "auto"]
+ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid", "auto",
+         "dl_only_L", "hybrid_L", "auto_L", "auto_tta", "auto_L_tta", "auto_E_tta"]
 # colour-blind safe (Okabe-Ito); ours highlighted
 COL = {"nearest": "#999999", "bilinear": "#bbbbbb", "bicubic": "#555555", "jbu": "#56B4E9", "guided": "#009E73",
-       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid_convex": "#8c564b", "hybrid": "#D55E00", "auto": "#B22222"}
+       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid_convex": "#8c564b", "hybrid": "#D55E00", "auto": "#B22222",
+       "dl_only_L": "#9467bd", "hybrid_L": "#e377c2", "auto_L": "#17becf", "auto_tta": "#7f7f7f", "auto_L_tta": "#000000", "auto_E_tta": "#d62728"}
 PROTOCOLS = ["clean", "noisy", "noisy+holes"]
+HYB = "hybrid_L" if (pipeline.WEIGHTS / "hybrid_L.pt").exists() else "hybrid"      # model used for the figures
 
 
 def load_all():
@@ -97,10 +100,10 @@ def write_eval_md(S, eff, team, usns, rows):
                 t = eff["timing"].get(f"{m}|{s}")
                 if t:
                     L.append(f"| {names[m]} | {s}x | {t['median_ms']:.0f} | {t['p95_ms']:.0f} | {t['peak_rss_mb']:.0f} | {t['peak_rss_mb'] - t['warm_rss_mb']:.0f} |")
-    for a_name, b_name in (("hybrid", "bicubic"), ("hybrid", "dl_only")):
+    for a_name, b_name in (("hybrid", "bicubic"), ("hybrid", "dl_only"), ("hybrid_L", "dl_only_L"), ("auto_L_tta", "auto_L"), ("auto_L_tta", "auto")):
         pt = paired_table(rows, a_name, b_name)
         if pt:
-            L += ["", f"## 6{'a' if b_name == 'bicubic' else 'b'}. Statistical check: {a_name} minus {b_name} "
+            L += ["", f"## 6. Statistical check: {a_name} minus {b_name} "
                   "(paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)", "",
                   "| Protocol | Scale | Metric | Mean diff | 95% CI | n |", "|---|---|---|---|---|---|"]
             for prot, s, met, mean, lo, hi, n in pt:
@@ -150,7 +153,7 @@ def _prep(idx, scale, protocol):
 
 
 def fig_qualitative(idxs=(1005, 1160, 1330), scale=8, protocol="clean", name="qualitative_8x"):
-    cols = ["bicubic", "jbu", "classical", "dl_only", "hybrid"]
+    cols = ["bicubic", "jbu", "classical", "dl_only", "hybrid"] + ([HYB, "dl_only_L"] if HYB == "hybrid_L" else [])
     fig, ax = plt.subplots(2 * len(idxs), len(cols) + 3, figsize=(2.2 * (len(cols) + 3), 3.4 * 2 * len(idxs) / 2))
     for r, idx in enumerate(idxs):
         rgb, dep, lr, valid = _prep(idx, scale, protocol)
@@ -174,7 +177,7 @@ def fig_qualitative(idxs=(1005, 1160, 1330), scale=8, protocol="clean", name="qu
 
 def fig_stages(idx=1160, scale=4, protocol="noisy+holes"):
     rgb, dep, lr, valid = _prep(idx, scale, protocol)
-    depth, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True)
+    depth, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True, kind=HYB)
     o, w = ex["classical"], ex["weights"]
     lo, hi = float(dep.min()), float(dep.max())
     lrv = viz.colorize(np.repeat(np.repeat(lr, scale, 0), scale, 1), lo, hi); lrv[np.repeat(np.repeat(~valid, scale, 0), scale, 1)] = 0
@@ -198,7 +201,7 @@ def fig_boundary(idx=1330, scale=8):
     # choose the 64x64 window with the strongest depth discontinuity
     cnt = np.add.reduceat(np.add.reduceat(e.astype(int), np.arange(0, e.shape[0] - 63, 32), 0), np.arange(0, e.shape[1] - 63, 32), 1)
     cy, cx = [int(v) * 32 for v in np.unravel_index(np.argmax(cnt), cnt.shape)]
-    names = ["bicubic", "jbu", "classical", "dl_only", "hybrid"]
+    names = ["bicubic", "jbu", "classical", "dl_only", "hybrid"] + ([HYB] if HYB == "hybrid_L" else [])
     outs = {n: pipeline.METHODS[n](lr, valid, rgb, scale) for n in names}
     lo, hi = float(dep.min()), float(dep.max())
     fig = plt.figure(figsize=(13, 5.6))

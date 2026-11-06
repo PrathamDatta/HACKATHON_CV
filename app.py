@@ -16,7 +16,7 @@ from depthup import degrade, io as dio, metrics, pipeline, viz
 
 ROOT = Path(__file__).parent
 SAMPLES = sorted(ROOT.glob("samples/*_rgb.jpg"))
-SHOW = ["bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto"]
+SHOW = ["bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto", "dl_only_L", "hybrid_L", "auto_L"]
 
 st.set_page_config(page_title="EdgeGate Depth Upsampler", page_icon="🧭", layout="wide")
 st.markdown("""<style>.block-container{padding-top:1.2rem;max-width:1300px}
@@ -26,12 +26,14 @@ div[data-testid="stMetricValue"]{font-size:1.4rem}</style>""", unsafe_allow_html
 @st.cache_resource(show_spinner="Loading models…")
 def warm():
     ok = {}
-    for k in ("hybrid", "dl_only"):
+    for k in ("hybrid", "dl_only", "hybrid_L", "dl_only_L"):
         try:
             pipeline.load_model(k)
             ok[k] = True
         except FileNotFoundError:
             ok[k] = False
+    ok["auto"] = ok["hybrid"] and ok["dl_only"]
+    ok["auto_L"] = ok["hybrid_L"] and ok["dl_only_L"]
     return ok
 
 
@@ -53,9 +55,10 @@ st.caption("Sparse / low-resolution depth → dense high-resolution depth. Class
            "+ a small learned blend-and-residual network. Pick a depth-quality regime and compare against interpolation, classical and deep-only baselines.")
 
 models = warm()
-if not all(models.values()):
+if not (models["hybrid"] and models["dl_only"]):
     st.warning("Trained weights not found — learned methods are disabled. Run `python -m depthup.train`.")
-names_available = [n for n in SHOW if (n not in ("hybrid", "dl_only", "auto") or models.get(n))]
+names_available = [n for n in SHOW if (n not in models or models[n])]
+DEFAULT_METHODS = [n for n in ("bicubic", "jbu", "classical", "dl_only", "hybrid", "auto_L" if "auto_L" in names_available else "auto") if n in names_available]
 
 quick = st.button("▶ Reconstruct  (uses the sidebar settings; a sample at 4× by default)", type="primary", use_container_width=True)
 msg = st.container()     # errors appear here, above the tabs, so they are never off-screen
@@ -83,7 +86,7 @@ with st.sidebar:
         up_rgb = st.file_uploader("RGB guidance image", type=["jpg", "jpeg", "png"])
         up_dep = st.file_uploader("Low-res depth (.npy / 16-bit png)", type=["npy", "npz", "png", "tif", "tiff"])
         unit = st.selectbox("Depth unit", ["auto", "metres", "millimetres", "relative"])
-    methods = st.multiselect("Methods to compare", names_available, default=names_available)
+    methods = st.multiselect("Methods to compare", names_available, default=DEFAULT_METHODS)
     go = st.button("Reconstruct", type="primary", use_container_width=True) or quick
 
 state = st.session_state
@@ -126,8 +129,9 @@ if go:
                 job = prepare()
                 outs, lat = run_methods(job["lr"], job["valid"], job["rgb"], job["scale"], methods)
                 extra = None
-                if models.get("hybrid"):
-                    _, extra = pipeline.run_hybrid(job["lr"], job["valid"], job["rgb"], job["scale"], return_all=True)
+                hk = "hybrid_L" if models.get("hybrid_L") else "hybrid"
+                if models.get(hk):
+                    _, extra = pipeline.run_hybrid(job["lr"], job["valid"], job["rgb"], job["scale"], return_all=True, kind=hk)
             state["job"], state["outs"], state["lat"], state["extra"] = job, outs, lat, extra
         except dio.InputError as e:
             msg.error(str(e))

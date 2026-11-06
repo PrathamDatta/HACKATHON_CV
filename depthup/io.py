@@ -6,7 +6,7 @@ import io
 import numpy as np
 from PIL import Image, UnidentifiedImageError
 
-MAX_SIDE = 960          # keep latency under ~10 s on a small CPU instance
+MAX_SIDE = 640          # NYU is 640x480; larger uploads are shrunk so a small CPU host answers within ~10 s
 SCALES = (2, 4, 8)
 
 

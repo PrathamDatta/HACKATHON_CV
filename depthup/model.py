@@ -20,14 +20,20 @@ def conv(i, o, k=3, s=1, d=1):
 
 
 class Backbone(nn.Module):
-    def __init__(self, c_in: int, c_out: int, w: int = 32):
+    """3-level U-Net. `w` = base width, `nblocks` = extra convs per stage, `mid_rep` = repeats of the dilated block.
+    Defaults (w=16, nblocks=1, mid_rep=1) reproduce the original small CPU model exactly."""
+
+    def __init__(self, c_in: int, c_out: int, w: int = 16, nblocks: int = 1, mid_rep: int = 1):
         super().__init__()
-        self.stem = nn.Sequential(conv(c_in, w), conv(w, w))
-        self.d1 = nn.Sequential(conv(w, 2 * w, s=2), conv(2 * w, 2 * w))
-        self.d2 = nn.Sequential(conv(2 * w, 4 * w, s=2), conv(4 * w, 4 * w))
-        self.mid = nn.Sequential(conv(4 * w, 4 * w, d=2), conv(4 * w, 4 * w, d=4), conv(4 * w, 4 * w, d=8))
-        self.u1 = conv(4 * w + 2 * w, 2 * w)
-        self.u0 = conv(2 * w + w, w)
+        self.stem = nn.Sequential(conv(c_in, w), *[conv(w, w) for _ in range(nblocks)])
+        self.d1 = nn.Sequential(conv(w, 2 * w, s=2), *[conv(2 * w, 2 * w) for _ in range(nblocks)])
+        self.d2 = nn.Sequential(conv(2 * w, 4 * w, s=2), *[conv(4 * w, 4 * w) for _ in range(nblocks)])
+        self.mid = nn.Sequential(*[conv(4 * w, 4 * w, d=d) for _ in range(mid_rep) for d in (2, 4, 8)])
+        # nblocks == 1 keeps the original single-conv layout (state-dict compatible with the first checkpoints)
+        self.u1 = conv(4 * w + 2 * w, 2 * w) if nblocks == 1 else nn.Sequential(
+            conv(4 * w + 2 * w, 2 * w), *[conv(2 * w, 2 * w) for _ in range(nblocks - 1)])
+        self.u0 = conv(2 * w + w, w) if nblocks == 1 else nn.Sequential(
+            conv(2 * w + w, w), *[conv(w, w) for _ in range(nblocks - 1)])
         self.head = nn.Conv2d(w, c_out, 1)
 
     def forward(self, x):
@@ -73,9 +79,9 @@ class HybridNet(nn.Module):
     """
     C_IN = 10
 
-    def __init__(self, w: int = 16):
+    def __init__(self, w: int = 16, nblocks: int = 1, mid_rep: int = 1):
         super().__init__()
-        self.net = Backbone(self.C_IN, 2, w)
+        self.net = Backbone(self.C_IN, 2, w, nblocks, mid_rep)
         nn.init.zeros_(self.net.head.weight)
         nn.init.zeros_(self.net.head.bias)
 
@@ -91,9 +97,9 @@ class DLOnlyNet(nn.Module):
     """inputs: rgb(3) d_bic scale -> 5 channels; output = d_bic + residual."""
     C_IN = 5
 
-    def __init__(self, w: int = 16):
+    def __init__(self, w: int = 16, nblocks: int = 1, mid_rep: int = 1):
         super().__init__()
-        self.net = Backbone(self.C_IN, 1, w)
+        self.net = Backbone(self.C_IN, 1, w, nblocks, mid_rep)
         nn.init.zeros_(self.net.head.weight)
         nn.init.zeros_(self.net.head.bias)
 

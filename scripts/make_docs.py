@@ -7,6 +7,7 @@ S = json.loads((ROOT / "results/summary.json").read_text())
 A = json.loads((ROOT / "results/ablation.json").read_text())
 F = json.loads((ROOT / "results/failure_cases.json").read_text())
 E = json.loads((ROOT / "results/efficiency.json").read_text())
+EXTRA = [m for m in ("dl_only_L", "hybrid_L", "auto_L", "auto_L_tta", "auto_E_tta") if "clean|2|" + m in S]
 LAB = {"bicubic": "Bicubic", "jbu": "JBU", "guided": "Guided filter", "classical": "Classical gated JBU (ours)",
        "dl_only": "Deep learning only", "hybrid_convex": "Hybrid v1 (softmax arbiter)", "hybrid": "Hybrid v2 (ours)",
        "auto": "EdgeGate-Auto (ours)"}
@@ -97,11 +98,29 @@ def failures_md():
     return "\n".join(L) + "\n"
 
 
+NAMES = {"bicubic": "Bicubic", "jbu": "Joint bilateral", "classical": "Classical (ours)", "dl_only": "Deep only (small)",
+         "hybrid": "Hybrid v2 (small)", "auto": "Auto (small)", "dl_only_L": "Deep only-L (GPU)", "hybrid_L": "Hybrid-L (GPU)",
+         "auto_L": "Auto-L (GPU)", "auto_L_tta": "Auto-L + flip TTA (GPU)", "auto_E_tta": "**Auto-L ensemble + TTA (GPU)**"}
+ARMS = ["bicubic", "jbu", "classical", "dl_only", "hybrid", "auto"] + EXTRA
+
+
+def best_arms():
+    """One generated sentence per protocol: which arm has the lowest RMSE in how many of the 3 scales."""
+    out = []
+    for prot in ("clean", "noisy", "noisy+holes"):
+        wins = {}
+        for s in (2, 4, 8):
+            m = min((a for a in ARMS if f"{prot}|{s}|{a}" in S), key=lambda a: S[f"{prot}|{s}|{a}"]["rmse_cm"])
+            wins[m] = wins.get(m, 0) + 1
+        out.append(f"`{prot}`: " + ", ".join(f"{NAMES[m]} best at {n}/3 scales" for m, n in wins.items()))
+    return "; ".join(out)
+
+
 def headline():
-    rows = ["| Condition | Bicubic | Joint bilateral | Classical (ours) | Deep only | Hybrid v2 (ours) | **Auto (ours)** |", "|---|---|---|---|---|---|---|"]
+    rows = ["| Condition | " + " | ".join(NAMES[a] for a in ARMS) + " |", "|---|" + "---|" * len(ARMS)]
     for prot, n in (("clean", 449), ("noisy", 150), ("noisy+holes", 150)):
         for s in (2, 4, 8):
-            v = [S[f"{prot}|{s}|{m}"]["rmse_cm"] for m in ("bicubic", "jbu", "classical", "dl_only", "hybrid", "auto")]
+            v = [S[f"{prot}|{s}|{m}"]["rmse_cm"] for m in ARMS]
             b = min(v)
             rows.append(f"| {prot}, {s}x (n={n}) | " + " | ".join((f"**{x:.2f}**" if x == b else f"{x:.2f}") for x in v) + " |")
     return "\n".join(rows)
@@ -126,7 +145,8 @@ Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing value
 {headline()}
 
 * All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T01.md`**.
-* **Honest summary:** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
+* **Best arm per protocol (generated from the table):** {best_arms()}.
+* **Honest summary (CPU-trained small models):** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
 * Latency, 480x640, 4 CPU threads, median: bicubic {lat('bicubic', 4)} ms, classical {lat('classical', 4)} ms, deep-only {lat('dl_only', 4)} ms, hybrid {lat('hybrid', 4)} ms. Model files: about 0.86 MB each.
 * Depth units are *assumed* (raw x 10 m); only relative comparisons between methods are meaningful in absolute terms.
 

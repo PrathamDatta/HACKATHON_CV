@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import json
 import multiprocessing as mp
+import os
 import zlib
 from pathlib import Path
 
@@ -58,6 +59,13 @@ def _work(args):
             add("hybrid", "v1 softmax-convex arbiter (superseded)", pipeline.run_hybrid(lr, valid, rgb, scale, kind="hybrid_convex"))
         if (pipeline.WEIGHTS / "dl_only.pt").exists():
             add("hybrid", "deep learning only (no classical features)", pipeline.run_dl_only(lr, valid, rgb, scale))
+    if (pipeline.WEIGHTS / "hybrid_L.pt").exists():     # larger GPU-trained pair
+        depth, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True, kind="hybrid_L")
+        b0, b1, dd, gg = ex["classical"].base, ex["classical"].depth, ex["dl_branch"], ex["weights"][1]
+        add("large", "L: residual δ only (β = 0)", dd)
+        add("large", "L: full hybrid E0 + β(E1−E0) + δ", depth)
+        if (pipeline.WEIGHTS / "dl_only_L.pt").exists():
+            add("large", "L: deep learning only", pipeline.run_dl_only(lr, valid, rgb, scale, kind="dl_only_L"))
     return rows
 
 
@@ -76,7 +84,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=80)
     ap.add_argument("--procs", type=int, default=4)
+    ap.add_argument("--device", default="cpu")
     a = ap.parse_args()
+    os.environ["DEPTHUP_DEVICE"] = a.device
     from . import data
     test = data.split_indices("test")
     idxs = test[::max(1, len(test) // a.n)][:a.n]
