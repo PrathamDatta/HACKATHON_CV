@@ -56,3 +56,13 @@ Either push the branch (`git add -A && git commit -m "GPU results" && git push`)
 * **Windows data-loader errors**: rerun with `--workers 4`.
 * **Interrupted**: just run the same command again.
 * **Evaluation too slow**: lower `--eval-procs`; or `--ablation-frames 80`.
+
+## 6. Short on time? (custom budget)
+`python scripts/gpu_pipeline.py --profile balanced --hours-per-model 1.25 --workers 6 --eval-procs 8` trains one seed of each model for about 1.25 h each (about 2.5 h) plus about 1.5 h of evaluation, roughly 4 h in total. Use `--ablation-frames 80` to trim the ablation stage further.
+
+## 7. Deploying on Hugging Face Spaces (free CPU)
+1. Create a Space at huggingface.co/new-space: SDK **Docker**, hardware "CPU basic".
+2. `git remote add space https://huggingface.co/spaces/<user>/<space-name>`
+3. `git push space claude/practical-pasteur-0j1ipi:main` (username + a write-access HF token as the password).
+4. The README front matter already declares `sdk: docker` and `app_port: 8501`. The first build takes a few minutes.
+5. Open the URL, press Reconstruct, upload a bad file once to confirm the error message, then test on a phone.
