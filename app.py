@@ -16,7 +16,7 @@ from depthup import degrade, io as dio, metrics, pipeline, viz
 
 ROOT = Path(__file__).parent
 SAMPLES = sorted(ROOT.glob("samples/*_rgb.jpg"))
-SHOW = ["bicubic", "jbu", "guided", "classical", "dl_only", "hybrid"]
+SHOW = ["bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto"]
 
 st.set_page_config(page_title="EdgeGate Depth Upsampler", page_icon="🧭", layout="wide")
 st.markdown("""<style>.block-container{padding-top:1.2rem;max-width:1300px}
@@ -55,7 +55,7 @@ st.caption("Sparse / low-resolution depth → dense high-resolution depth. Class
 models = warm()
 if not all(models.values()):
     st.warning("Trained weights not found — learned methods are disabled. Run `python -m depthup.train`.")
-names_available = [n for n in SHOW if (n not in ("hybrid", "dl_only") or models.get(n))]
+names_available = [n for n in SHOW if (n not in ("hybrid", "dl_only", "auto") or models.get(n))]
 
 tab_run, tab_stages, tab_bench, tab_about = st.tabs(["Reconstruct", "Intermediate stages", "Benchmark results", "About"])
 

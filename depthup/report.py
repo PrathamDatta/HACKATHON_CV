@@ -18,10 +18,10 @@ from .evaluate import summarize
 
 ROOT = Path(__file__).resolve().parents[1]
 RES, FIG = ROOT / "results", ROOT / "docs" / "figures"
-ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid"]
+ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid", "auto"]
 # colour-blind safe (Okabe-Ito); ours highlighted
 COL = {"nearest": "#999999", "bilinear": "#bbbbbb", "bicubic": "#555555", "jbu": "#56B4E9", "guided": "#009E73",
-       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid_convex": "#8c564b", "hybrid": "#D55E00"}
+       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid_convex": "#8c564b", "hybrid": "#D55E00", "auto": "#B22222"}
 PROTOCOLS = ["clean", "noisy", "noisy+holes"]
 
 

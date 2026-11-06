@@ -72,6 +72,21 @@ def run_dl_only(lr, valid, rgb, scale):
     return out[0, 0].numpy() + m
 
 
+AUTO_NOISE_THR = 0.012   # metres; fixed a priori (clean LR noise estimate is ~0.002-0.005, 2% noise gives >0.02)
+
+
+def auto_choice(lr, valid):
+    """'dl_only' for pristine input (no holes, low estimated noise), else 'hybrid'."""
+    if valid.all() and C.estimate_noise(lr) < AUTO_NOISE_THR:
+        return "dl_only"
+    return "hybrid"
+
+
+def run_auto(lr, valid, rgb, scale):
+    """Adaptive selector: the deep-only net is best on pristine depth, the hybrid on degraded depth."""
+    return run_dl_only(lr, valid, rgb, scale) if auto_choice(lr, valid) == "dl_only" else run_hybrid(lr, valid, rgb, scale)
+
+
 def _fill(lr, valid):
     return C.naive_fill(lr, valid)
 
@@ -86,11 +101,12 @@ METHODS = {
     "classical": lambda lr, v, rgb, s: C.gate_pipeline(lr, v, rgb, s).depth,
     "dl_only": run_dl_only,
     "hybrid": run_hybrid,
+    "auto": run_auto,
     "hybrid_convex": lambda lr, v, rgb, s: run_hybrid(lr, v, rgb, s, kind="hybrid_convex"),
 }
 LABELS = {"nearest": "Nearest", "bilinear": "Bilinear", "bicubic": "Bicubic", "jbu": "Joint bilateral (JBU)",
           "guided": "Guided filter", "classical": "Classical (ours: gated JBU)", "dl_only": "Deep learning only",
-          "hybrid": "Hybrid (ours)", "hybrid_convex": "Hybrid v1 (softmax arbiter)"}
+          "hybrid": "Hybrid (ours)", "hybrid_convex": "Hybrid v1 (softmax arbiter)", "auto": "EdgeGate-Auto (ours)"}
 
 
 def timed(name, lr, valid, rgb, scale):

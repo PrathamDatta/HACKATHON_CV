@@ -19,7 +19,8 @@ from depthup import data, degrade, pipeline
 method, scale = sys.argv[1], int(sys.argv[2])
 rgb, dep = data.get_pair(1005)
 lr, valid = degrade.degrade(dep, degrade.Degradation(scale=scale), np.random.default_rng(0))
-if method in ('hybrid', 'dl_only'): pipeline.load_model(method)
+if method in ('hybrid', 'dl_only', 'auto'):
+    pipeline.load_model('dl_only'); pipeline.load_model('hybrid')
 pipeline.METHODS[method](lr, valid, rgb, scale)          # warm-up
 base = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
 ts = []
@@ -37,7 +38,7 @@ def main(threads: int = 4):
            "weights_kb": {k: (ROOT / "weights" / f"{k}.pt").stat().st_size / 1024
                           for k in ("hybrid", "dl_only") if (ROOT / "weights" / f"{k}.pt").exists()},
            "image": "480x640", "threads": threads, "timing": {}}
-    for m in ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid"]:
+    for m in ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid", "auto"]:
         for s in (2, 4, 8):
             r = subprocess.run([sys.executable, "-I", "-c", CHILD % (str(ROOT), threads), m, str(s)], capture_output=True, text=True)
             if r.returncode:

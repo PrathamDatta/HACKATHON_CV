@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
-ALL_METHODS = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid"]
+ALL_METHODS = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid", "auto"]
 
 
 def _seed(idx, scale, protocol):

@@ -8,3 +8,132 @@ step 300 loss 0.0415 t=99s
 step 350 loss 0.1002 t=116s
 step 400 loss 0.0345 t=132s
 step 450 loss 0.1450 t=148s
+step 500 loss 0.0472 t=165s
+== step 500 val RMSE(cm, clean 2/4/8) 4.014
+step 550 loss 0.1229 t=220s
+step 600 loss 0.0487 t=237s
+step 650 loss 0.0864 t=253s
+step 700 loss 0.0309 t=269s
+step 750 loss 0.0577 t=285s
+step 800 loss 0.0378 t=301s
+step 850 loss 0.1358 t=317s
+step 900 loss 0.0455 t=333s
+step 950 loss 0.0839 t=349s
+step 1000 loss 0.1019 t=364s
+== step 1000 val RMSE(cm, clean 2/4/8) 3.879
+step 1050 loss 0.0948 t=415s
+step 1100 loss 0.0477 t=432s
+step 1150 loss 0.1165 t=448s
+step 1200 loss 0.0650 t=464s
+step 1250 loss 0.1187 t=480s
+step 1300 loss 0.0774 t=496s
+step 1350 loss 0.0730 t=513s
+step 1400 loss 0.1030 t=530s
+step 1450 loss 0.0664 t=546s
+step 1500 loss 0.0487 t=562s
+== step 1500 val RMSE(cm, clean 2/4/8) 3.594
+step 1550 loss 0.0765 t=611s
+step 1600 loss 0.0299 t=628s
+step 1650 loss 0.1545 t=644s
+step 1700 loss 0.0370 t=660s
+step 1750 loss 0.0994 t=677s
+step 1800 loss 0.0650 t=693s
+step 1850 loss 0.0482 t=709s
+step 1900 loss 0.1336 t=725s
+step 1950 loss 0.0323 t=741s
+step 2000 loss 0.1108 t=757s
+== step 2000 val RMSE(cm, clean 2/4/8) 3.536
+step 2050 loss 0.0667 t=808s
+step 2100 loss 0.0635 t=823s
+step 2150 loss 0.0713 t=840s
+step 2200 loss 0.0171 t=857s
+step 2250 loss 0.0358 t=875s
+step 2300 loss 0.0357 t=892s
+step 2350 loss 0.0494 t=910s
+step 2400 loss 0.0508 t=926s
+step 2450 loss 0.0707 t=943s
+step 2500 loss 0.0571 t=959s
+== step 2500 val RMSE(cm, clean 2/4/8) 3.210
+step 2550 loss 0.1350 t=1011s
+step 2600 loss 0.0606 t=1027s
+step 2650 loss 0.0386 t=1043s
+step 2700 loss 0.0755 t=1059s
+step 2750 loss 0.0378 t=1074s
+step 2800 loss 0.0962 t=1090s
+step 2850 loss 0.0592 t=1106s
+step 2900 loss 0.0636 t=1121s
+step 2950 loss 0.0585 t=1136s
+step 3000 loss 0.0580 t=1151s
+== step 3000 val RMSE(cm, clean 2/4/8) 3.283
+step 3050 loss 0.0451 t=1199s
+step 3100 loss 0.0604 t=1215s
+step 3150 loss 0.0479 t=1231s
+step 3200 loss 0.0654 t=1246s
+step 3250 loss 0.0315 t=1262s
+step 3300 loss 0.0876 t=1277s
+step 3350 loss 0.0829 t=1293s
+step 3400 loss 0.0932 t=1309s
+step 3450 loss 0.0576 t=1324s
+step 3500 loss 0.0330 t=1340s
+== step 3500 val RMSE(cm, clean 2/4/8) 3.152
+step 3550 loss 0.0712 t=1390s
+step 3600 loss 0.1265 t=1405s
+step 3650 loss 0.0409 t=1421s
+step 3700 loss 0.0815 t=1437s
+step 3750 loss 0.0427 t=1452s
+step 3800 loss 0.0395 t=1469s
+step 3850 loss 0.0348 t=1485s
+step 3900 loss 0.0356 t=1502s
+step 3950 loss 0.0223 t=1518s
+step 4000 loss 0.0376 t=1534s
+== step 4000 val RMSE(cm, clean 2/4/8) 3.034
+step 4050 loss 0.0408 t=1587s
+step 4100 loss 0.0655 t=1603s
+step 4150 loss 0.0260 t=1619s
+step 4200 loss 0.0225 t=1635s
+step 4250 loss 0.0497 t=1652s
+step 4300 loss 0.0703 t=1668s
+step 4350 loss 0.0834 t=1684s
+step 4400 loss 0.0360 t=1700s
+step 4450 loss 0.0509 t=1716s
+step 4500 loss 0.0332 t=1732s
+== step 4500 val RMSE(cm, clean 2/4/8) 3.019
+step 4550 loss 0.0740 t=1786s
+step 4600 loss 0.0734 t=1803s
+step 4650 loss 0.1083 t=1819s
+step 4700 loss 0.0587 t=1836s
+step 4750 loss 0.0753 t=1852s
+step 4800 loss 0.0392 t=1870s
+step 4850 loss 0.0399 t=1888s
+step 4900 loss 0.1318 t=1906s
+step 4950 loss 0.0577 t=1923s
+step 5000 loss 0.0874 t=1941s
+== step 5000 val RMSE(cm, clean 2/4/8) 2.992
+step 5050 loss 0.0730 t=1997s
+step 5100 loss 0.1466 t=2014s
+step 5150 loss 0.0417 t=2030s
+step 5200 loss 0.0363 t=2046s
+step 5250 loss 0.0467 t=2063s
+step 5300 loss 0.0589 t=2081s
+step 5350 loss 0.0475 t=2097s
+step 5400 loss 0.0507 t=2113s
+step 5450 loss 0.0633 t=2130s
+step 5500 loss 0.0425 t=2147s
+== step 5500 val RMSE(cm, clean 2/4/8) 2.960
+step 5550 loss 0.0506 t=2200s
+step 5600 loss 0.0598 t=2216s
+step 5650 loss 0.1223 t=2233s
+step 5700 loss 0.1004 t=2249s
+step 5750 loss 0.1687 t=2265s
+step 5800 loss 0.0570 t=2282s
+step 5850 loss 0.0782 t=2297s
+step 5900 loss 0.0469 t=2313s
+step 5950 loss 0.0334 t=2329s
+step 6000 loss 0.0991 t=2346s
+== step 6000 val RMSE(cm, clean 2/4/8) 2.946
+step 6050 loss 0.1376 t=2405s
+step 6100 loss 0.0602 t=2422s
+step 6150 loss 0.2053 t=2439s
+step 6200 loss 0.0650 t=2457s
+== step 6201 val RMSE(cm, clean 2/4/8) 2.954
+best val 2.9464406967163086
