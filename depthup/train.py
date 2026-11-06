@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import os
 import time
 
 import cv2
@@ -129,8 +130,15 @@ def validate(net, kind, items, device):
     return float(np.mean(errs))
 
 
+def atomic_save(obj, path):
+    """Write to a temp file then rename, so a crash mid-write can never leave a corrupt checkpoint."""
+    tmp = str(path) + ".tmp"
+    torch.save(obj, tmp)
+    os.replace(tmp, path)
+
+
 def save(path, net, cfg, **extra):
-    torch.save({"cfg": cfg, "state": {k: v.detach().cpu() for k, v in net.state_dict().items()}, **extra}, path)
+    atomic_save({"cfg": cfg, "state": {k: v.detach().cpu() for k, v in net.state_dict().items()}, **extra}, path)
 
 
 def main():
@@ -180,12 +188,16 @@ def main():
     opt = torch.optim.AdamW(net.parameters(), lr=a.lr, weight_decay=1e-4)
     step, best = 0, 1e9
     if a.resume and resume_path.exists():
-        ck = torch.load(resume_path, map_location="cpu", weights_only=False)
-        net.load_state_dict(ck["net"]); opt.load_state_dict(ck["opt"])
-        if ema is not None and ck.get("ema") is not None:
-            ema.load_state_dict(ck["ema"])
-        step, best = ck["step"], ck["best"]
-        print(f"resumed at step {step}", flush=True)
+        try:
+            ck = torch.load(resume_path, map_location="cpu", weights_only=False)
+            net.load_state_dict(ck["net"]); opt.load_state_dict(ck["opt"])
+            if ema is not None and ck.get("ema") is not None:
+                ema.load_state_dict(ck["ema"])
+            step, best = ck["step"], ck["best"]
+            print(f"resumed at step {step}", flush=True)
+        except Exception as e:      # e.g. file truncated by a crash before atomic saves existed
+            print(f"WARNING: could not load {resume_path.name} ({e}); starting this model from step 0", flush=True)
+            resume_path.rename(str(resume_path) + ".corrupt")
 
     val_items = build_val(a.kind, list(range(*a.val_range))[::max(1, (a.val_range[1] - a.val_range[0]) // a.val_frames)][:a.val_frames])
     dl = DataLoader(PatchStream(a.kind, range(*a.train_range), a.patch, seed=a.seed), batch_size=a.batch, num_workers=a.workers,
@@ -226,8 +238,8 @@ def main():
                 best = v
                 save(out_path, ema if ema is not None else net, cfg, step=step, val_rmse=v)
         if step % a.save_every == 0:
-            torch.save({"net": net.state_dict(), "opt": opt.state_dict(), "ema": ema.state_dict() if ema is not None else None,
-                        "step": step, "best": best}, resume_path)
+            atomic_save({"net": net.state_dict(), "opt": opt.state_dict(), "ema": ema.state_dict() if ema is not None else None,
+                         "step": step, "best": best}, resume_path)
         if frac >= 1.0:
             break
     print("best val", best, flush=True)
