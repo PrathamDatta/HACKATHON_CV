@@ -193,7 +193,7 @@ with tab_stages:
     else:
         o, w, rgb = ex["classical"], ex["weights"], job["rgb"]
         st.markdown("**Pipeline:** clean LR → bicubic base → depth-discontinuity detection → RGB gate → "
-                    "gated tri-lateral JBU → learned per-pixel arbitration.")
+                    "gated tri-lateral JBU → learned gate + residual.")
         items = [("Missing-value mask (LR)", viz.zoom(np.where(job["valid"], 255, 40).astype(np.uint8)[..., None].repeat(3, -1), job["scale"])),
                  ("Bicubic base (cleaned)", viz.colorize(o.base)),
                  ("Depth discontinuities (LR step detector)", viz.gray(o.extras["soft"])),
@@ -202,10 +202,10 @@ with tab_stages:
                  ("Edges RGB ∧ ¬depth (texture the gate blocks)", viz.gray(np.clip(o.extras["rgb_edge"] * (1 - o.extras["gate"]), 0, 1))),
                  ("Classical gated-JBU output", viz.colorize(o.depth)),
                  ("Colour-plateau snap candidate", viz.colorize(o.extras["snapped"])),
-                 ("DL branch inside hybrid", viz.colorize(ex["dl_branch"])),
-                 ("Arbiter weight → bicubic", viz.gray(w[0])),
-                 ("Arbiter weight → classical", viz.gray(w[1])),
-                 ("Arbiter weight → DL residual", viz.gray(w[2]))]
+                 ("E0 + δ (residual only)", viz.colorize(ex["dl_branch"])),
+                 ("Gate: trust in bicubic (1−g)", viz.gray(w[0])),
+                 ("Gate g: trust in classical sharpening", viz.gray(w[1])),
+                 ("Learned residual |δ| (0–20 cm)", viz.gray(w[2]))]
         cols = st.columns(3)
         for i, (t, img) in enumerate(items):
             cols[i % 3].image(img, caption=t, use_container_width=True)

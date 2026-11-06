@@ -94,11 +94,14 @@ def test_metrics_perfect_and_worse():
 
 
 def test_models_forward_shapes():
-    x = __import__("torch").zeros(1, HybridNet.C_IN, 32, 48)
+    import torch
+    x = torch.zeros(1, HybridNet.C_IN, 32, 48)
     z = x[:, :1]
-    out, d_dl, w = HybridNet()(x, z, z)
+    with torch.no_grad():
+        out, d_dl, w = HybridNet()(x, z, z)
     assert out.shape == (1, 1, 32, 48) and w.shape == (1, 3, 32, 48)
-    assert abs(float(w.sum(1).mean()) - 1) < 1e-5
+    assert abs(float((w[:, 0] + w[:, 1]).mean()) - 1) < 1e-5     # [1-g, g] sum to 1
+    assert torch.allclose(out, z + w[:, 1:2] * (z - z) + (d_dl - z))   # zero-init head: out == E0 + 0
     assert DLOnlyNet()(__import__("torch").zeros(1, 5, 32, 48), z).shape == (1, 1, 32, 48)
 
 

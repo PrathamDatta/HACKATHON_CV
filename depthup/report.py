@@ -18,10 +18,10 @@ from .evaluate import summarize
 
 ROOT = Path(__file__).resolve().parents[1]
 RES, FIG = ROOT / "results", ROOT / "docs" / "figures"
-ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid"]
+ORDER = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid"]
 # colour-blind safe (Okabe-Ito); ours highlighted
 COL = {"nearest": "#999999", "bilinear": "#bbbbbb", "bicubic": "#555555", "jbu": "#56B4E9", "guided": "#009E73",
-       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid": "#D55E00"}
+       "classical": "#E69F00", "dl_only": "#CC79A7", "hybrid_convex": "#8c564b", "hybrid": "#D55E00"}
 PROTOCOLS = ["clean", "noisy", "noisy+holes"]
 
 
@@ -180,8 +180,8 @@ def fig_stages(idx=1160, scale=4, protocol="noisy+holes"):
               ("depth discontinuities", viz.gray(o.extras["soft"])), ("gate g", viz.gray(o.extras["gate"])),
               ("RGB edges", viz.gray(o.extras["rgb_edge"])), ("RGB edges blocked by gate", viz.gray(np.clip(o.extras["rgb_edge"] * (1 - o.extras["gate"]), 0, 1))),
               ("classical gated JBU", viz.colorize(o.depth, lo, hi)), ("colour-plateau snap cand.", viz.colorize(o.extras["snapped"], lo, hi)),
-              ("DL residual branch", viz.colorize(ex["dl_branch"], lo, hi)), ("arbiter → bicubic", viz.gray(w[0])),
-              ("arbiter → classical", viz.gray(w[1])), ("arbiter → DL", viz.gray(w[2])), ("HYBRID output", viz.colorize(depth, lo, hi)),
+              ("E0 + δ (residual only)", viz.colorize(ex["dl_branch"], lo, hi)), ("1−g (trust in bicubic)", viz.gray(w[0])),
+              ("gate g (trust in classical)", viz.gray(w[1])), ("learned |δ| (0–20 cm)", viz.gray(w[2])), ("HYBRID output", viz.colorize(depth, lo, hi)),
               ("ground truth", viz.colorize(dep, lo, hi)), ("hybrid |error| 0–30cm", viz.error_map(depth, dep))]
     fig, ax = plt.subplots(4, 4, figsize=(12, 9.4))
     for a, (t, im) in zip(ax.ravel(), panels):

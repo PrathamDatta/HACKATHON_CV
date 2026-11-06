@@ -14,7 +14,7 @@ import numpy as np
 import torch
 
 from . import classical as C
-from .model import DLOnlyNet, HybridNet
+from .model import DLOnlyNet, HybridNet, HybridNetConvex
 
 ROOT = Path(__file__).resolve().parents[1]
 WEIGHTS = ROOT / "weights"
@@ -44,7 +44,7 @@ def dl_features(lr, valid, rgb, scale):
 
 def load_model(kind: str):
     if kind not in _models:
-        net = HybridNet() if kind == "hybrid" else DLOnlyNet()
+        net = {"hybrid": HybridNet, "hybrid_convex": HybridNetConvex, "dl_only": DLOnlyNet}[kind]()
         path = WEIGHTS / f"{kind}.pt"
         if not path.exists():
             raise FileNotFoundError(f"missing trained weights: {path}")
@@ -55,10 +55,10 @@ def load_model(kind: str):
 
 
 @torch.no_grad()
-def run_hybrid(lr, valid, rgb, scale, return_all=False):
+def run_hybrid(lr, valid, rgb, scale, return_all=False, kind="hybrid"):
     x, d_bic, d_gate, m, o = hybrid_features(lr, valid, rgb, scale)
     xt = torch.from_numpy(x)[None]
-    out, d_dl, w = load_model("hybrid")(xt, torch.from_numpy(d_bic - m)[None, None], torch.from_numpy(d_gate - m)[None, None])
+    out, d_dl, w = load_model(kind)(xt, torch.from_numpy(d_bic - m)[None, None], torch.from_numpy(d_gate - m)[None, None])
     depth = out[0, 0].numpy() + m
     if not return_all:
         return depth
@@ -86,10 +86,11 @@ METHODS = {
     "classical": lambda lr, v, rgb, s: C.gate_pipeline(lr, v, rgb, s).depth,
     "dl_only": run_dl_only,
     "hybrid": run_hybrid,
+    "hybrid_convex": lambda lr, v, rgb, s: run_hybrid(lr, v, rgb, s, kind="hybrid_convex"),
 }
 LABELS = {"nearest": "Nearest", "bilinear": "Bilinear", "bicubic": "Bicubic", "jbu": "Joint bilateral (JBU)",
           "guided": "Guided filter", "classical": "Classical (ours: gated JBU)", "dl_only": "Deep learning only",
-          "hybrid": "Hybrid (ours)"}
+          "hybrid": "Hybrid (ours)", "hybrid_convex": "Hybrid v1 (softmax arbiter)"}
 
 
 def timed(name, lr, valid, rgb, scale):

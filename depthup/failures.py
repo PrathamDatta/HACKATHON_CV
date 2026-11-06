@@ -81,7 +81,7 @@ def main():
             fig, ax = plt.subplots(2, 4, figsize=(13, 7))
             panels = [("RGB", rgb), ("GT depth", viz.colorize(dep, lo, hi)), ("bicubic", viz.colorize(pb, lo, hi)), ("hybrid", viz.colorize(ph, lo, hi)),
                       ("GT discontinuities", viz.overlay_edges(rgb, metrics.gt_edges(dep))), ("bicubic |err|", viz.error_map(pb, dep)),
-                      ("hybrid |err|", viz.error_map(ph, dep)), ("arbiter→classical", viz.gray(ex["weights"][1]))]
+                      ("hybrid |err|", viz.error_map(ph, dep)), ("gate g (trust in classical)", viz.gray(ex["weights"][1]))]
             for a, (t, im) in zip(ax.ravel(), panels):
                 a.imshow(im); a.set_title(t, fontsize=9); a.axis("off")
             m, mb = hy[idx], bi[idx]

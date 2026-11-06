@@ -23,8 +23,8 @@ CLASSICAL_VARIANTS = {
     "D  + noise-adaptive LR clean-up  (= Classical, ours)": dict(use_gate=True, use_depth_term=True, use_clean=True),
     "E  D + hard colour-plateau snap": dict(use_gate=True, use_depth_term=True, use_clean=True, use_snap=True),
 }
-HYBRID_VARIANTS = ["arbiter forced -> bicubic", "arbiter forced -> classical (E1)", "arbiter forced -> DL residual (E2)",
-                   "uniform average of experts", "learned arbiter (Hybrid, ours)"]
+HYBRID_VARIANTS = ["E0 only (bicubic)", "E1 only (classical gated JBU)", "learned gate, residual delta switched off",
+                   "residual delta only (gate switched off)", "full hybrid: E0 + g(E1-E0) + delta  (ours)"]
 
 
 def _work(args):
@@ -51,9 +51,13 @@ def _work(args):
             add("classical", name, C.gate_pipeline(lr, valid, rgb, scale, **kw).depth)
     if (pipeline.WEIGHTS / "hybrid.pt").exists():
         depth, ex = pipeline.run_hybrid(lr, valid, rgb, scale, return_all=True)
-        d_bic, d_gate, d_dl = ex["classical"].base, ex["classical"].depth, ex["dl_branch"]
-        for name, pred in zip(HYBRID_VARIANTS, [d_bic, d_gate, d_dl, (d_bic + d_gate + d_dl) / 3, depth]):
+        d_bic, d_gate, d_dl, g = ex["classical"].base, ex["classical"].depth, ex["dl_branch"], ex["weights"][1]
+        for name, pred in zip(HYBRID_VARIANTS, [d_bic, d_gate, d_bic + g * (d_gate - d_bic), d_dl, depth]):
             add("hybrid", name, pred)
+        if (pipeline.WEIGHTS / "hybrid_convex.pt").exists():
+            add("hybrid", "v1 softmax-convex arbiter (superseded)", pipeline.run_hybrid(lr, valid, rgb, scale, kind="hybrid_convex"))
+        if (pipeline.WEIGHTS / "dl_only.pt").exists():
+            add("hybrid", "deep learning only (no classical features)", pipeline.run_dl_only(lr, valid, rgb, scale))
     return rows
 
 

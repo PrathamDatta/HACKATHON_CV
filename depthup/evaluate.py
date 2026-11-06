@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
-ALL_METHODS = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid"]
+ALL_METHODS = ["nearest", "bilinear", "bicubic", "jbu", "guided", "classical", "dl_only", "hybrid_convex", "hybrid"]
 
 
 def _seed(idx, scale, protocol):
@@ -45,14 +45,14 @@ def _work(args):
     return rows
 
 
-def run(protocol, scales, n, methods, procs, offset=0):
+def run(protocol, scales, n, methods, procs, offset=0, append=False):
     from . import data
     test = data.split_indices("test")
     step = max(1, len(test) // n)
     idxs = test[offset::step][:n]
     out = RES / f"per_image_{protocol}.jsonl"
     RES.mkdir(exist_ok=True)
-    with mp.get_context("spawn").Pool(procs) as pool, open(out, "w") as f:
+    with mp.get_context("spawn").Pool(procs) as pool, open(out, "a" if append else "w") as f:
         for i, rows in enumerate(pool.imap_unordered(_work, [(i, scales, protocol, methods) for i in idxs])):
             for r in rows:
                 f.write(json.dumps(r) + "\n")
@@ -84,5 +84,6 @@ if __name__ == "__main__":
     ap.add_argument("--n", type=int, default=449)
     ap.add_argument("--methods", nargs="+", default=ALL_METHODS)
     ap.add_argument("--procs", type=int, default=4)
+    ap.add_argument("--append", action="store_true", help="append rows (use after relabelling an old method)")
     a = ap.parse_args()
-    run(a.protocol, a.scales, a.n, a.methods, a.procs)
+    run(a.protocol, a.scales, a.n, a.methods, a.procs, append=a.append)

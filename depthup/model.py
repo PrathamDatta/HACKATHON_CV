@@ -39,8 +39,9 @@ class Backbone(nn.Module):
         return self.head(u0)
 
 
-class HybridNet(nn.Module):
-    """inputs: rgb(3) d_bic d_gate d_snap gate rgb_edge conf scale  -> 10 channels."""
+class HybridNetConvex(nn.Module):
+    """v1 (kept as a documented negative result): softmax-convex arbiter over {E0, E1, E0+delta}.
+    A softmax can never give one expert weight 1, so it leaks the blurry experts into the output."""
     C_IN = 10
 
     def __init__(self, w: int = 16):
@@ -58,6 +59,32 @@ class HybridNet(nn.Module):
         wts = torch.softmax(logits, 1)
         out = wts[:, 0:1] * d_bic + wts[:, 1:2] * d_gate + wts[:, 2:3] * d_dl
         return out, d_dl, wts
+
+
+class HybridNet(nn.Module):
+    """v2 hybrid. inputs: rgb(3) d_bic d_gate d_snap gate rgb_edge conf scale -> 10 channels.
+
+        out = E0 + g * (E1 - E0) + delta
+
+    E0 = clean bicubic, E1 = classical gated JBU, g in [0,1] = learned per-pixel trust in the classical
+    sharpening, delta = learned residual. With g = 0 this is exactly the deep-only model, so the hybrid
+    can never be forced below it by its structure. Returns (out, E0 + delta, weights) where weights =
+    [1 - g, g, |delta| clipped at 20 cm] for visualisation.
+    """
+    C_IN = 10
+
+    def __init__(self, w: int = 16):
+        super().__init__()
+        self.net = Backbone(self.C_IN, 2, w)
+        nn.init.zeros_(self.net.head.weight)
+        nn.init.zeros_(self.net.head.bias)
+
+    def forward(self, x, d_bic, d_gate):
+        o = self.net(x)
+        delta, g = o[:, :1], torch.sigmoid(o[:, 1:2])
+        out = d_bic + g * (d_gate - d_bic) + delta
+        w = torch.cat([1 - g, g, (delta.abs() / 0.2).clamp(0, 1)], 1)
+        return out, d_bic + delta, w
 
 
 class DLOnlyNet(nn.Module):

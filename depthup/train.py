@@ -95,6 +95,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--kind", choices=["hybrid", "dl_only"], required=True)
     ap.add_argument("--minutes", type=float, default=20)
+    ap.add_argument("--steps", type=int, default=0, help="if set, schedule and stop by step count (equal-budget comparisons)")
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--workers", type=int, default=1)
@@ -112,12 +113,12 @@ def main():
     net.train()
     log = []
     for x, d_bic, d_gate, gt, _ in dl:
-        frac = min((time.time() - t0) / budget, 1.0)
+        frac = min(step / a.steps, 1.0) if a.steps else min((time.time() - t0) / budget, 1.0)
         for g in opt.param_groups:
             g["lr"] = a.lr * (0.02 + 0.98 * 0.5 * (1 + np.cos(np.pi * frac))) * min(1.0, (step + 1) / 100)
         if a.kind == "hybrid":
             out, d_dl, w = net(x, d_bic, d_gate)
-            loss = loss_fn(out, gt, d_bic) + 0.5 * loss_fn(d_dl, gt, d_bic)
+            loss = loss_fn(out, gt, d_bic)
         else:
             loss = loss_fn(net(x, d_bic), gt, d_bic)
         opt.zero_grad()

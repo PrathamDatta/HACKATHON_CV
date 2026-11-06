@@ -1,0 +1,354 @@
+{
+ "clean|4|classical|bicubic": {
+  "rmse_cm": 4.731025774151699,
+  "mae_cm": 1.5572865548867096,
+  "boundary_rmse_cm": 14.040417084433733,
+  "edge_f1": 0.7413143195800729,
+  "texture_copy_rmse_cm": 1.5536804572946354,
+  "ssim": 0.9849742329123501
+ },
+ "clean|4|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 4.635771624720921,
+  "mae_cm": 1.4768289805215993,
+  "boundary_rmse_cm": 13.833668457890031,
+  "edge_f1": 0.8823014111121357,
+  "texture_copy_rmse_cm": 1.498488365277846,
+  "ssim": 0.9870910743307787
+ },
+ "clean|4|classical|B  + depth-consistency term": {
+  "rmse_cm": 4.918395244542831,
+  "mae_cm": 1.4854331102433274,
+  "boundary_rmse_cm": 14.67972385441684,
+  "edge_f1": 0.9116344635240694,
+  "texture_copy_rmse_cm": 1.535765827283745,
+  "ssim": 0.9858581676527862
+ },
+ "clean|4|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 4.907721177987487,
+  "mae_cm": 1.4562161640325857,
+  "boundary_rmse_cm": 14.685581316362766,
+  "edge_f1": 0.9087948573696785,
+  "texture_copy_rmse_cm": 1.5681322068978854,
+  "ssim": 0.9858130953074469
+ },
+ "clean|4|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 4.920477244534934,
+  "mae_cm": 1.4578793055548804,
+  "boundary_rmse_cm": 14.716171209739471,
+  "edge_f1": 0.9087943671286919,
+  "texture_copy_rmse_cm": 1.5681322068978854,
+  "ssim": 0.9857991275724689
+ },
+ "clean|4|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 8.39165098413358,
+  "mae_cm": 2.1174412898597965,
+  "boundary_rmse_cm": 24.58719578751713,
+  "edge_f1": 0.8756755666233571,
+  "texture_copy_rmse_cm": 1.905985989974269,
+  "ssim": 0.9717516694007742
+ },
+ "clean|4|hybrid|arbiter forced -> bicubic": {
+  "rmse_cm": 4.745943235439905,
+  "mae_cm": 1.5591825218838178,
+  "boundary_rmse_cm": 14.076270724337855,
+  "edge_f1": 0.7413138827951397,
+  "texture_copy_rmse_cm": 1.5536804572946354,
+  "ssim": 0.9849591147141755
+ },
+ "clean|4|hybrid|arbiter forced -> classical (E1)": {
+  "rmse_cm": 4.920477244534934,
+  "mae_cm": 1.4578793055548804,
+  "boundary_rmse_cm": 14.716171209739471,
+  "edge_f1": 0.9087943671286919,
+  "texture_copy_rmse_cm": 1.5681322068978854,
+  "ssim": 0.9857991275724689
+ },
+ "clean|4|hybrid|arbiter forced -> DL residual (E2)": {
+  "rmse_cm": 3.1977880861293024,
+  "mae_cm": 1.2182936870382561,
+  "boundary_rmse_cm": 9.00620612773486,
+  "edge_f1": 0.938552945372853,
+  "texture_copy_rmse_cm": 1.4429856156092873,
+  "ssim": 0.9918251954493005
+ },
+ "clean|4|hybrid|uniform average of experts": {
+  "rmse_cm": 3.81181590694701,
+  "mae_cm": 1.3144306137724995,
+  "boundary_rmse_cm": 11.141525778035831,
+  "edge_f1": 0.8706821243004061,
+  "texture_copy_rmse_cm": 1.4427905376971462,
+  "ssim": 0.9894233352754156
+ },
+ "clean|4|hybrid|learned arbiter (Hybrid, ours)": {
+  "rmse_cm": 3.159118005517171,
+  "mae_cm": 1.162510887709875,
+  "boundary_rmse_cm": 8.974931780739123,
+  "edge_f1": 0.9328633334544516,
+  "texture_copy_rmse_cm": 1.4073557999543422,
+  "ssim": 0.991966920914497
+ },
+ "noisy+holes|8|classical|bicubic": {
+  "rmse_cm": 13.280397183417818,
+  "mae_cm": 6.4632721993286655,
+  "boundary_rmse_cm": 31.24069200389015,
+  "edge_f1": 0.42617035398905684,
+  "texture_copy_rmse_cm": 7.950684539235146,
+  "ssim": 0.9261083360385605
+ },
+ "noisy+holes|8|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 12.235928143906573,
+  "mae_cm": 5.6572258512680405,
+  "boundary_rmse_cm": 29.501815998204666,
+  "edge_f1": 0.6578023750663966,
+  "texture_copy_rmse_cm": 7.303912100553478,
+  "ssim": 0.9414891725616202
+ },
+ "noisy+holes|8|classical|B  + depth-consistency term": {
+  "rmse_cm": 12.583760129498287,
+  "mae_cm": 5.8202784572863715,
+  "boundary_rmse_cm": 30.404895160641765,
+  "edge_f1": 0.6460925173174143,
+  "texture_copy_rmse_cm": 7.349875829841963,
+  "ssim": 0.935702598328483
+ },
+ "noisy+holes|8|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 12.616347967972805,
+  "mae_cm": 5.900732127493884,
+  "boundary_rmse_cm": 30.44604113159202,
+  "edge_f1": 0.6339143442468406,
+  "texture_copy_rmse_cm": 7.367434828658041,
+  "ssim": 0.9350959773338055
+ },
+ "noisy+holes|8|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 11.016715040951194,
+  "mae_cm": 5.138307602478646,
+  "boundary_rmse_cm": 28.55701148975997,
+  "edge_f1": 0.5666623046517613,
+  "texture_copy_rmse_cm": 5.44405138803396,
+  "ssim": 0.9511882228579637
+ },
+ "noisy+holes|8|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 13.906539861936755,
+  "mae_cm": 5.649520900768243,
+  "boundary_rmse_cm": 35.76077119343372,
+  "edge_f1": 0.5638719700841388,
+  "texture_copy_rmse_cm": 6.724483164043906,
+  "ssim": 0.9425960013488144
+ },
+ "noisy+holes|8|hybrid|arbiter forced -> bicubic": {
+  "rmse_cm": 11.28660174793547,
+  "mae_cm": 5.370547770387266,
+  "boundary_rmse_cm": 29.033625249727844,
+  "edge_f1": 0.4223305684691329,
+  "texture_copy_rmse_cm": 5.665478806091523,
+  "ssim": 0.9479846366131663
+ },
+ "noisy+holes|8|hybrid|arbiter forced -> classical (E1)": {
+  "rmse_cm": 11.016715040951194,
+  "mae_cm": 5.138307602478646,
+  "boundary_rmse_cm": 28.55701148975997,
+  "edge_f1": 0.5666623046517613,
+  "texture_copy_rmse_cm": 5.44405138803396,
+  "ssim": 0.9511882228579637
+ },
+ "noisy+holes|8|hybrid|arbiter forced -> DL residual (E2)": {
+  "rmse_cm": 9.864946920908096,
+  "mae_cm": 4.755109791835244,
+  "boundary_rmse_cm": 24.281639076700195,
+  "edge_f1": 0.7169946643417854,
+  "texture_copy_rmse_cm": 5.65185437123259,
+  "ssim": 0.9575162280304198
+ },
+ "noisy+holes|8|hybrid|uniform average of experts": {
+  "rmse_cm": 10.235260423045123,
+  "mae_cm": 4.9494181956637835,
+  "boundary_rmse_cm": 25.800611717107994,
+  "edge_f1": 0.5960190302368282,
+  "texture_copy_rmse_cm": 5.480176862328861,
+  "ssim": 0.9555027684261317
+ },
+ "noisy+holes|8|hybrid|learned arbiter (Hybrid, ours)": {
+  "rmse_cm": 9.78947341635481,
+  "mae_cm": 4.710599692904323,
+  "boundary_rmse_cm": 24.228578258601956,
+  "edge_f1": 0.7089936047315522,
+  "texture_copy_rmse_cm": 5.527566663715232,
+  "ssim": 0.9583336549143879
+ },
+ "noisy+holes|4|classical|bicubic": {
+  "rmse_cm": 10.17818015600208,
+  "mae_cm": 4.988744293210611,
+  "boundary_rmse_cm": 22.22780942639125,
+  "edge_f1": 0.609961026199494,
+  "texture_copy_rmse_cm": 7.048832987812676,
+  "ssim": 0.9169449399914285
+ },
+ "noisy+holes|4|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 9.01839722613958,
+  "mae_cm": 4.221124270113258,
+  "boundary_rmse_cm": 20.796228847866736,
+  "edge_f1": 0.6995300346497921,
+  "texture_copy_rmse_cm": 6.162593596422544,
+  "ssim": 0.9399045513811994
+ },
+ "noisy+holes|4|classical|B  + depth-consistency term": {
+  "rmse_cm": 9.38549172761742,
+  "mae_cm": 4.382421091601955,
+  "boundary_rmse_cm": 21.66915086548635,
+  "edge_f1": 0.7119070615087392,
+  "texture_copy_rmse_cm": 6.304951522736664,
+  "ssim": 0.9328348897544709
+ },
+ "noisy+holes|4|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 9.399743352174353,
+  "mae_cm": 4.425237728503732,
+  "boundary_rmse_cm": 21.670824075075664,
+  "edge_f1": 0.7116914588945024,
+  "texture_copy_rmse_cm": 6.3199987206342225,
+  "ssim": 0.931847035766814
+ },
+ "noisy+holes|4|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 7.638195304287791,
+  "mae_cm": 3.5953759694732215,
+  "boundary_rmse_cm": 19.64371210809596,
+  "edge_f1": 0.7195114244746849,
+  "texture_copy_rmse_cm": 4.135275577805405,
+  "ssim": 0.9589492425620121
+ },
+ "noisy+holes|4|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 9.224563083459966,
+  "mae_cm": 3.8163618131461887,
+  "boundary_rmse_cm": 24.309284200155158,
+  "edge_f1": 0.7038854275304861,
+  "texture_copy_rmse_cm": 4.496455091087659,
+  "ssim": 0.9547031522320701
+ },
+ "noisy+holes|4|hybrid|arbiter forced -> bicubic": {
+  "rmse_cm": 7.8124116726275785,
+  "mae_cm": 3.711056241155197,
+  "boundary_rmse_cm": 19.926146367613114,
+  "edge_f1": 0.6908079726913204,
+  "texture_copy_rmse_cm": 4.209772612266831,
+  "ssim": 0.9570631420561286
+ },
+ "noisy+holes|4|hybrid|arbiter forced -> classical (E1)": {
+  "rmse_cm": 7.638195304287791,
+  "mae_cm": 3.5953759694732215,
+  "boundary_rmse_cm": 19.64371210809596,
+  "edge_f1": 0.7195114244746849,
+  "texture_copy_rmse_cm": 4.135275577805405,
+  "ssim": 0.9589492425620121
+ },
+ "noisy+holes|4|hybrid|arbiter forced -> DL residual (E2)": {
+  "rmse_cm": 6.259637742940764,
+  "mae_cm": 2.9766672757050925,
+  "boundary_rmse_cm": 15.861579092305863,
+  "edge_f1": 0.8638617501751853,
+  "texture_copy_rmse_cm": 3.581284224398287,
+  "ssim": 0.9741813840530273
+ },
+ "noisy+holes|4|hybrid|uniform average of experts": {
+  "rmse_cm": 6.897070871556046,
+  "mae_cm": 3.326047477814138,
+  "boundary_rmse_cm": 17.443760955892365,
+  "edge_f1": 0.7719250434041846,
+  "texture_copy_rmse_cm": 3.887995598329881,
+  "ssim": 0.9661319415174852
+ },
+ "noisy+holes|4|hybrid|learned arbiter (Hybrid, ours)": {
+  "rmse_cm": 6.272148398142311,
+  "mae_cm": 2.9925317199001324,
+  "boundary_rmse_cm": 15.869299539940243,
+  "edge_f1": 0.855370128932007,
+  "texture_copy_rmse_cm": 3.600948852154274,
+  "ssim": 0.9736472526841368
+ },
+ "clean|8|classical|bicubic": {
+  "rmse_cm": 7.932290311699648,
+  "mae_cm": 3.0800857359033835,
+  "boundary_rmse_cm": 23.24330700629604,
+  "edge_f1": 0.45862743316224774,
+  "texture_copy_rmse_cm": 2.6793495014214828,
+  "ssim": 0.964671725114013
+ },
+ "clean|8|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 7.832164369311964,
+  "mae_cm": 2.889195109328579,
+  "boundary_rmse_cm": 22.58539371124429,
+  "edge_f1": 0.7634056549037948,
+  "texture_copy_rmse_cm": 2.732455280319442,
+  "ssim": 0.9703373291918552
+ },
+ "clean|8|classical|B  + depth-consistency term": {
+  "rmse_cm": 7.978373120967201,
+  "mae_cm": 2.932328298774465,
+  "boundary_rmse_cm": 23.12831016478261,
+  "edge_f1": 0.7932975733867328,
+  "texture_copy_rmse_cm": 2.624753695504172,
+  "ssim": 0.9671568090953588
+ },
+ "clean|8|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 7.941471464217827,
+  "mae_cm": 2.852838536322504,
+  "boundary_rmse_cm": 23.229352458795468,
+  "edge_f1": 0.7622242505739154,
+  "texture_copy_rmse_cm": 2.5704317571630697,
+  "ssim": 0.9677297566638419
+ },
+ "clean|8|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 7.984868129273588,
+  "mae_cm": 2.863248224004011,
+  "boundary_rmse_cm": 23.327938170429746,
+  "edge_f1": 0.7617982926483726,
+  "texture_copy_rmse_cm": 2.574870805542252,
+  "ssim": 0.9676651248646143
+ },
+ "clean|8|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 13.42437605851462,
+  "mae_cm": 4.125839378269324,
+  "boundary_rmse_cm": 36.64217763358961,
+  "edge_f1": 0.7088075907496802,
+  "texture_copy_rmse_cm": 5.170073853289572,
+  "ssim": 0.9462885269757774
+ },
+ "clean|8|hybrid|arbiter forced -> bicubic": {
+  "rmse_cm": 7.9776942634784564,
+  "mae_cm": 3.0909265725172204,
+  "boundary_rmse_cm": 23.349010967109717,
+  "edge_f1": 0.45787947178200933,
+  "texture_copy_rmse_cm": 2.68367675968046,
+  "ssim": 0.9646029300551542
+ },
+ "clean|8|hybrid|arbiter forced -> classical (E1)": {
+  "rmse_cm": 7.984868129273588,
+  "mae_cm": 2.863248224004011,
+  "boundary_rmse_cm": 23.327938170429746,
+  "edge_f1": 0.7617982926483726,
+  "texture_copy_rmse_cm": 2.574870805542252,
+  "ssim": 0.9676651248646143
+ },
+ "clean|8|hybrid|arbiter forced -> DL residual (E2)": {
+  "rmse_cm": 5.88825161960082,
+  "mae_cm": 2.405915691816297,
+  "boundary_rmse_cm": 16.54371806312667,
+  "edge_f1": 0.8218793986240348,
+  "texture_copy_rmse_cm": 2.5176992305579247,
+  "ssim": 0.9767879813912576
+ },
+ "clean|8|hybrid|uniform average of experts": {
+  "rmse_cm": 6.6294811054592415,
+  "mae_cm": 2.632272568987028,
+  "boundary_rmse_cm": 19.155477900545115,
+  "edge_f1": 0.717754822592091,
+  "texture_copy_rmse_cm": 2.5007864696048046,
+  "ssim": 0.9731725063481009
+ },
+ "clean|8|hybrid|learned arbiter (Hybrid, ours)": {
+  "rmse_cm": 5.861479527753293,
+  "mae_cm": 2.359479341462209,
+  "boundary_rmse_cm": 16.609395507942423,
+  "edge_f1": 0.8159424028549956,
+  "texture_copy_rmse_cm": 2.4356152842000545,
+  "ssim": 0.9771148123028786
+ }
+}
