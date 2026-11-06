@@ -5,9 +5,11 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 TEAM="${TEAM:-T01}"; USNS="${USNS:-USN1,USN2,USN3,USN4}"
 python scripts/prepare_data.py
-python -m depthup.train --kind hybrid  --minutes 35 --val-every 500 &
-python -m depthup.train --kind dl_only --minutes 35 --val-every 500 &
+# equal step budget for both models (6,200 steps, about 35-45 min each when run side by side on 4 cores)
+python -m depthup.train --kind dl_only --steps 6200 --minutes 120 --workers 1 --threads 2 --val-every 500 &
+python -m depthup.train --kind hybrid  --steps 6200 --minutes 120 --workers 1 --threads 2 --val-every 500 &
 wait
+# weights/hybrid_convex.pt (superseded v1 arbiter, kept as an evaluation arm) is committed and not retrained
 python -m depthup.evaluate --protocol clean       --n 449
 python -m depthup.evaluate --protocol noisy       --n 150
 python -m depthup.evaluate --protocol noisy+holes --n 150
@@ -15,4 +17,5 @@ python -m depthup.ablate --n 80
 python -m depthup.benchmark
 python -m depthup.failures
 python -m depthup.report --team "$TEAM" --usns "$USNS"
+python scripts/make_docs.py
 python -m pytest -q tests

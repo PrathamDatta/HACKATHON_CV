@@ -64,12 +64,12 @@ class HybridNetConvex(nn.Module):
 class HybridNet(nn.Module):
     """v2 hybrid. inputs: rgb(3) d_bic d_gate d_snap gate rgb_edge conf scale -> 10 channels.
 
-        out = E0 + g * (E1 - E0) + delta
+        out = E0 + beta * (E1 - E0) + delta
 
-    E0 = clean bicubic, E1 = classical gated JBU, g in [0,1] = learned per-pixel trust in the classical
-    sharpening, delta = learned residual. With g = 0 this is exactly the deep-only model, so the hybrid
+    E0 = clean bicubic, E1 = classical gated JBU, beta in [0,1] = learned per-pixel trust in the classical
+    sharpening, delta = learned residual. With beta = 0 this is exactly the deep-only model, so the hybrid
     can never be forced below it by its structure. Returns (out, E0 + delta, weights) where weights =
-    [1 - g, g, |delta| clipped at 20 cm] for visualisation.
+    [1 - beta, beta, |delta| clipped at 20 cm] for visualisation.
     """
     C_IN = 10
 

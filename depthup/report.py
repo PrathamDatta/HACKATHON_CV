@@ -42,17 +42,17 @@ def bootstrap_ci(a, b, n=2000, seed=0):
     return float(d.mean()), float(np.percentile(m, 2.5)), float(np.percentile(m, 97.5))
 
 
-def paired_table(rows):
+def paired_table(rows, a_name="hybrid", b_name="bicubic"):
     out = []
     for prot in PROTOCOLS:
         for s in (2, 4, 8):
             sel = {m: {r["idx"]: r for r in rows if r["protocol"] == prot and r["scale"] == s and r["method"] == m}
-                   for m in ("bicubic", "hybrid")}
-            common = sorted(set(sel["bicubic"]) & set(sel["hybrid"]))
+                   for m in (b_name, a_name)}
+            common = sorted(set(sel[b_name]) & set(sel[a_name]))
             if not common:
                 continue
             for met in ("rmse_cm", "boundary_rmse_cm"):
-                mean, lo, hi = bootstrap_ci([sel["hybrid"][i][met] for i in common], [sel["bicubic"][i][met] for i in common])
+                mean, lo, hi = bootstrap_ci([sel[a_name][i][met] for i in common], [sel[b_name][i][met] for i in common])
                 out.append((prot, s, met, mean, lo, hi, len(common)))
     return out
 
@@ -97,12 +97,14 @@ def write_eval_md(S, eff, team, usns, rows):
                 t = eff["timing"].get(f"{m}|{s}")
                 if t:
                     L.append(f"| {names[m]} | {s}x | {t['median_ms']:.0f} | {t['p95_ms']:.0f} | {t['peak_rss_mb']:.0f} | {t['peak_rss_mb'] - t['warm_rss_mb']:.0f} |")
-    pt = paired_table(rows)
-    if pt:
-        L += ["", "## 6. Statistical check: Hybrid minus Bicubic (paired bootstrap, 95% CI; negative = Hybrid better)", "",
-              "| Protocol | Scale | Metric | Mean diff | 95% CI | n |", "|---|---|---|---|---|---|"]
-        for prot, s, met, mean, lo, hi, n in pt:
-            L.append(f"| {prot} | {s}x | {met} | {mean:.3f} | [{lo:.3f}, {hi:.3f}] | {n} |")
+    for a_name, b_name in (("hybrid", "bicubic"), ("hybrid", "dl_only")):
+        pt = paired_table(rows, a_name, b_name)
+        if pt:
+            L += ["", f"## 6{'a' if b_name == 'bicubic' else 'b'}. Statistical check: {a_name} minus {b_name} "
+                  "(paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)", "",
+                  "| Protocol | Scale | Metric | Mean diff | 95% CI | n |", "|---|---|---|---|---|---|"]
+            for prot, s, met, mean, lo, hi, n in pt:
+                L.append(f"| {prot} | {s}x | {met} | {mean:.3f} | [{lo:.3f}, {hi:.3f}] | {n} |")
     (ROOT / f"eval_P4_{team}.md").write_text("\n".join(L) + "\n")
 
 
@@ -177,11 +179,11 @@ def fig_stages(idx=1160, scale=4, protocol="noisy+holes"):
     lo, hi = float(dep.min()), float(dep.max())
     lrv = viz.colorize(np.repeat(np.repeat(lr, scale, 0), scale, 1), lo, hi); lrv[np.repeat(np.repeat(~valid, scale, 0), scale, 1)] = 0
     panels = [("RGB", rgb), ("noisy LR input (black = missing)", lrv), ("cleaned bicubic base", viz.colorize(o.base, lo, hi)),
-              ("depth discontinuities", viz.gray(o.extras["soft"])), ("gate g", viz.gray(o.extras["gate"])),
+              ("depth discontinuities", viz.gray(o.extras["soft"])), ("discontinuity gate G", viz.gray(o.extras["gate"])),
               ("RGB edges", viz.gray(o.extras["rgb_edge"])), ("RGB edges blocked by gate", viz.gray(np.clip(o.extras["rgb_edge"] * (1 - o.extras["gate"]), 0, 1))),
               ("classical gated JBU", viz.colorize(o.depth, lo, hi)), ("colour-plateau snap cand.", viz.colorize(o.extras["snapped"], lo, hi)),
-              ("E0 + δ (residual only)", viz.colorize(ex["dl_branch"], lo, hi)), ("1−g (trust in bicubic)", viz.gray(w[0])),
-              ("gate g (trust in classical)", viz.gray(w[1])), ("learned |δ| (0–20 cm)", viz.gray(w[2])), ("HYBRID output", viz.colorize(depth, lo, hi)),
+              ("E0 + δ (residual only)", viz.colorize(ex["dl_branch"], lo, hi)), ("1−β (trust in bicubic)", viz.gray(w[0])),
+              ("learned blend β (trust in classical)", viz.gray(w[1])), ("learned |δ| (0–20 cm)", viz.gray(w[2])), ("HYBRID output", viz.colorize(depth, lo, hi)),
               ("ground truth", viz.colorize(dep, lo, hi)), ("hybrid |error| 0–30cm", viz.error_map(depth, dep))]
     fig, ax = plt.subplots(4, 4, figsize=(12, 9.4))
     for a, (t, im) in zip(ax.ravel(), panels):

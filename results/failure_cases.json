@@ -2,28 +2,28 @@
  "correlations": {
   "clean@8x": {
    "edge_density": {
-    "spearman_vs_hybrid_rmse": 0.9348786108278865,
-    "spearman_vs_gain_over_bicubic": 0.83105102312386
+    "spearman_vs_hybrid_rmse": 0.9368370641230576,
+    "spearman_vs_gain_over_bicubic": 0.8440209208363362
    },
    "luminance": {
-    "spearman_vs_hybrid_rmse": 0.12558078799448508,
-    "spearman_vs_gain_over_bicubic": 0.17979239580019088
+    "spearman_vs_hybrid_rmse": 0.13288431965213698,
+    "spearman_vs_gain_over_bicubic": 0.15831596669848338
    },
    "mean_depth": {
-    "spearman_vs_hybrid_rmse": 0.6725039770919502,
-    "spearman_vs_gain_over_bicubic": 0.6006472054300561
+    "spearman_vs_hybrid_rmse": 0.6808529536536218,
+    "spearman_vs_gain_over_bicubic": 0.5994668045391875
    },
    "depth_range": {
-    "spearman_vs_hybrid_rmse": 0.8859053186976349,
-    "spearman_vs_gain_over_bicubic": 0.816508378407042
+    "spearman_vs_hybrid_rmse": 0.8868227012408526,
+    "spearman_vs_gain_over_bicubic": 0.8257024870081662
    },
    "edge_colour_contrast": {
-    "spearman_vs_hybrid_rmse": -0.015026381376604092,
-    "spearman_vs_gain_over_bicubic": 0.12143453706649696
+    "spearman_vs_hybrid_rmse": -0.012153993000318166,
+    "spearman_vs_gain_over_bicubic": 0.10251816205323998
    },
    "texture_level": {
-    "spearman_vs_hybrid_rmse": 0.3355664704634638,
-    "spearman_vs_gain_over_bicubic": 0.2824188673242125
+    "spearman_vs_hybrid_rmse": 0.34690171280093324,
+    "spearman_vs_gain_over_bicubic": 0.27132980697847064
    },
    "thin_edge_ratio": {
     "spearman_vs_hybrid_rmse": NaN,
@@ -32,34 +32,34 @@
    "_summary": {
     "n": 449,
     "frac_hybrid_better_than_bicubic": 1.0,
-    "median_gain_cm": 1.6868934598484011,
-    "worst_regression_cm": 0.1251912326738207
+    "median_gain_cm": 2.0942651576066194,
+    "worst_regression_cm": 0.3048430042159067
    }
   },
   "noisy+holes@4x": {
    "edge_density": {
-    "spearman_vs_hybrid_rmse": 0.9246134043543736,
-    "spearman_vs_gain_over_bicubic": 0.40892023453593146
+    "spearman_vs_hybrid_rmse": 0.923710251497529,
+    "spearman_vs_gain_over_bicubic": 0.5386257853704861
    },
    "luminance": {
-    "spearman_vs_hybrid_rmse": 0.12392906351393397,
-    "spearman_vs_gain_over_bicubic": 0.21327703453486824
+    "spearman_vs_hybrid_rmse": 0.12371216498511045,
+    "spearman_vs_gain_over_bicubic": 0.2005404684652651
    },
    "mean_depth": {
-    "spearman_vs_hybrid_rmse": 0.7659380416907419,
-    "spearman_vs_gain_over_bicubic": 0.6792390772923241
+    "spearman_vs_hybrid_rmse": 0.7597511000488911,
+    "spearman_vs_gain_over_bicubic": 0.7209084848215476
    },
    "depth_range": {
-    "spearman_vs_hybrid_rmse": 0.9113667274101072,
-    "spearman_vs_gain_over_bicubic": 0.6091701853415707
+    "spearman_vs_hybrid_rmse": 0.9040632917018534,
+    "spearman_vs_gain_over_bicubic": 0.7051211164940664
    },
    "edge_colour_contrast": {
-    "spearman_vs_hybrid_rmse": 0.04602693453042358,
-    "spearman_vs_gain_over_bicubic": 0.12852660118227477
+    "spearman_vs_hybrid_rmse": 0.02948931063602827,
+    "spearman_vs_gain_over_bicubic": 0.17524867771900973
    },
    "texture_level": {
-    "spearman_vs_hybrid_rmse": 0.2506760300457798,
-    "spearman_vs_gain_over_bicubic": 0.043605493577492334
+    "spearman_vs_hybrid_rmse": 0.2537374994444198,
+    "spearman_vs_gain_over_bicubic": 0.09450197786568292
    },
    "thin_edge_ratio": {
     "spearman_vs_hybrid_rmse": NaN,
@@ -68,8 +68,8 @@
    "_summary": {
     "n": 150,
     "frac_hybrid_better_than_bicubic": 1.0,
-    "median_gain_cm": 3.6267958269021836,
-    "worst_regression_cm": 2.6032148291622033
+    "median_gain_cm": 4.072362740837246,
+    "worst_regression_cm": 2.8591013443008992
    }
   }
  },
@@ -79,9 +79,9 @@
    "scale": 8,
    "reason": "highest hybrid RMSE",
    "idx": 1015,
-   "hybrid_rmse": 21.835822844851275,
+   "hybrid_rmse": 21.64742580739065,
    "bicubic_rmse": 22.17291663279987,
-   "hybrid_boundary": 51.662739244484776,
+   "hybrid_boundary": 51.32960475598964,
    "bicubic_boundary": 52.36119049867259,
    "edge_density": 0.06295247395833334,
    "luminance": 66.73503875732422,
@@ -95,17 +95,17 @@
    "protocol": "clean",
    "scale": 8,
    "reason": "worst regression vs bicubic",
-   "idx": 1003,
-   "hybrid_rmse": 7.877909722772433,
-   "bicubic_rmse": 8.003100955446254,
-   "hybrid_boundary": 24.18943150637911,
-   "bicubic_boundary": 24.535588819448893,
-   "edge_density": 0.024951171875,
-   "luminance": 132.59556579589844,
-   "mean_depth": 2.031414747238159,
-   "depth_range": 5.842827320098877,
-   "edge_colour_contrast": 76.1138687133789,
-   "texture_level": 145.23635864257812,
+   "idx": 1032,
+   "hybrid_rmse": 1.714145201275933,
+   "bicubic_rmse": 2.0189882054918398,
+   "hybrid_boundary": 7.553275107699877,
+   "bicubic_boundary": 9.372272279860518,
+   "edge_density": 0.003668619791666667,
+   "luminance": 119.57344818115234,
+   "mean_depth": 1.7369464635849,
+   "depth_range": 1.8921221494674683,
+   "edge_colour_contrast": 80.31626892089844,
+   "texture_level": 84.31077575683594,
    "thin_edge_ratio": 0.0
   },
   {
@@ -113,9 +113,9 @@
    "scale": 8,
    "reason": "lowest edge F1",
    "idx": 1072,
-   "hybrid_rmse": 2.189117641027769,
+   "hybrid_rmse": 2.047639981893858,
    "bicubic_rmse": 2.4033440560412114,
-   "hybrid_boundary": 8.139565026267906,
+   "hybrid_boundary": 7.446209121224008,
    "bicubic_boundary": 9.388582168692226,
    "edge_density": 0.004195963541666667,
    "luminance": 116.0687484741211,
@@ -130,9 +130,9 @@
    "scale": 4,
    "reason": "highest hybrid RMSE",
    "idx": 1240,
-   "hybrid_rmse": 14.26934891984313,
+   "hybrid_rmse": 12.163137808592959,
    "bicubic_rmse": 21.87051844865237,
-   "hybrid_boundary": 29.58071436646324,
+   "hybrid_boundary": 25.214345486126643,
    "bicubic_boundary": 44.59371538007404,
    "edge_density": 0.058551432291666664,
    "luminance": 133.9999542236328,
@@ -147,9 +147,9 @@
    "scale": 4,
    "reason": "worst regression vs bicubic",
    "idx": 1118,
-   "hybrid_rmse": 3.2362212664435974,
+   "hybrid_rmse": 2.9803347513049014,
    "bicubic_rmse": 5.839436095605801,
-   "hybrid_boundary": 8.75668535468175,
+   "hybrid_boundary": 8.46105724787363,
    "bicubic_boundary": 11.654675975523258,
    "edge_density": 0.017509765625,
    "luminance": 115.39523315429688,
@@ -162,18 +162,35 @@
   {
    "protocol": "noisy+holes",
    "scale": 4,
+   "reason": "highest boundary RMSE",
+   "idx": 1272,
+   "hybrid_rmse": 9.068972466032262,
+   "bicubic_rmse": 14.384864586373503,
+   "hybrid_boundary": 26.889633494298664,
+   "bicubic_boundary": 39.723294510230474,
+   "edge_density": 0.024134114583333335,
+   "luminance": 134.2362518310547,
+   "mean_depth": 3.02642560005188,
+   "depth_range": 8.428462028503418,
+   "edge_colour_contrast": 94.32323455810547,
+   "texture_level": 157.8249053955078,
+   "thin_edge_ratio": 0.0
+  },
+  {
+   "protocol": "noisy+holes",
+   "scale": 4,
    "reason": "lowest edge F1",
-   "idx": 1032,
-   "hybrid_rmse": 2.5570028469500063,
-   "bicubic_rmse": 5.791051458290038,
-   "hybrid_boundary": 7.938139751153994,
-   "bicubic_boundary": 10.234257724056844,
-   "edge_density": 0.003668619791666667,
-   "luminance": 119.57344818115234,
-   "mean_depth": 1.7369464635849,
-   "depth_range": 1.8921221494674683,
-   "edge_colour_contrast": 80.31626892089844,
-   "texture_level": 84.31077575683594,
+   "idx": 1170,
+   "hybrid_rmse": 2.973779567445302,
+   "bicubic_rmse": 6.979034659566452,
+   "hybrid_boundary": 9.388529029580265,
+   "bicubic_boundary": 13.571459010325587,
+   "edge_density": 0.007978515625,
+   "luminance": 94.83833312988281,
+   "mean_depth": 1.898380994796753,
+   "depth_range": 2.431595802307129,
+   "edge_colour_contrast": 99.63627624511719,
+   "texture_level": 144.0512237548828,
    "thin_edge_ratio": 0.0
   }
  ]

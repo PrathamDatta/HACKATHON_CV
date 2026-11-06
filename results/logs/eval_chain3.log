@@ -1,0 +1,7 @@
+saved results/ablation.json
+/home/user/HACKATHON_CV/depthup/failures.py:58: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  k: {"spearman_vs_hybrid_rmse": float(spearmanr([stats[i][k] for i in idxs], y)[0]),
+/home/user/HACKATHON_CV/depthup/failures.py:59: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  "spearman_vs_gain_over_bicubic": float(spearmanr([stats[i][k] for i in idxs], gain)[0])}
+report done
+CHAIN3_DONE

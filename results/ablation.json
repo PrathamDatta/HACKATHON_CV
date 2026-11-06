@@ -47,7 +47,7 @@
   "texture_copy_rmse_cm": 1.905985989974269,
   "ssim": 0.9717516694007742
  },
- "clean|4|hybrid|arbiter forced -> bicubic": {
+ "clean|4|hybrid|E0 only (bicubic)": {
   "rmse_cm": 4.745943235439905,
   "mae_cm": 1.5591825218838178,
   "boundary_rmse_cm": 14.076270724337855,
@@ -55,7 +55,7 @@
   "texture_copy_rmse_cm": 1.5536804572946354,
   "ssim": 0.9849591147141755
  },
- "clean|4|hybrid|arbiter forced -> classical (E1)": {
+ "clean|4|hybrid|E1 only (classical gated JBU)": {
   "rmse_cm": 4.920477244534934,
   "mae_cm": 1.4578793055548804,
   "boundary_rmse_cm": 14.716171209739471,
@@ -63,23 +63,31 @@
   "texture_copy_rmse_cm": 1.5681322068978854,
   "ssim": 0.9857991275724689
  },
- "clean|4|hybrid|arbiter forced -> DL residual (E2)": {
-  "rmse_cm": 3.1977880861293024,
-  "mae_cm": 1.2182936870382561,
-  "boundary_rmse_cm": 9.00620612773486,
-  "edge_f1": 0.938552945372853,
-  "texture_copy_rmse_cm": 1.4429856156092873,
-  "ssim": 0.9918251954493005
+ "clean|4|hybrid|learned blend \u03b2 only (residual \u03b4 off)": {
+  "rmse_cm": 4.468598631994068,
+  "mae_cm": 1.4607565446204633,
+  "boundary_rmse_cm": 13.269403333873942,
+  "edge_f1": 0.8120661797738032,
+  "texture_copy_rmse_cm": 1.5426957301450261,
+  "ssim": 0.9866359530620326
  },
- "clean|4|hybrid|uniform average of experts": {
-  "rmse_cm": 3.81181590694701,
-  "mae_cm": 1.3144306137724995,
-  "boundary_rmse_cm": 11.141525778035831,
-  "edge_f1": 0.8706821243004061,
-  "texture_copy_rmse_cm": 1.4427905376971462,
-  "ssim": 0.9894233352754156
+ "clean|4|hybrid|residual \u03b4 only (\u03b2 = 0)": {
+  "rmse_cm": 3.1954809106417215,
+  "mae_cm": 1.1926108086527991,
+  "boundary_rmse_cm": 9.071919108243545,
+  "edge_f1": 0.9251803334830851,
+  "texture_copy_rmse_cm": 1.3547998609252037,
+  "ssim": 0.9915288770789615
  },
- "clean|4|hybrid|learned arbiter (Hybrid, ours)": {
+ "clean|4|hybrid|full hybrid: E0 + \u03b2(E1\u2212E0) + \u03b4  (ours)": {
+  "rmse_cm": 3.032297248608214,
+  "mae_cm": 1.1196621295126754,
+  "boundary_rmse_cm": 8.59526149028398,
+  "edge_f1": 0.9429943296046936,
+  "texture_copy_rmse_cm": 1.3534618951974244,
+  "ssim": 0.9924505649500961
+ },
+ "clean|4|hybrid|v1 softmax-convex arbiter (superseded)": {
   "rmse_cm": 3.159118005517171,
   "mae_cm": 1.162510887709875,
   "boundary_rmse_cm": 8.974931780739123,
@@ -87,181 +95,13 @@
   "texture_copy_rmse_cm": 1.4073557999543422,
   "ssim": 0.991966920914497
  },
- "noisy+holes|8|classical|bicubic": {
-  "rmse_cm": 13.280397183417818,
-  "mae_cm": 6.4632721993286655,
-  "boundary_rmse_cm": 31.24069200389015,
-  "edge_f1": 0.42617035398905684,
-  "texture_copy_rmse_cm": 7.950684539235146,
-  "ssim": 0.9261083360385605
- },
- "noisy+holes|8|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
-  "rmse_cm": 12.235928143906573,
-  "mae_cm": 5.6572258512680405,
-  "boundary_rmse_cm": 29.501815998204666,
-  "edge_f1": 0.6578023750663966,
-  "texture_copy_rmse_cm": 7.303912100553478,
-  "ssim": 0.9414891725616202
- },
- "noisy+holes|8|classical|B  + depth-consistency term": {
-  "rmse_cm": 12.583760129498287,
-  "mae_cm": 5.8202784572863715,
-  "boundary_rmse_cm": 30.404895160641765,
-  "edge_f1": 0.6460925173174143,
-  "texture_copy_rmse_cm": 7.349875829841963,
-  "ssim": 0.935702598328483
- },
- "noisy+holes|8|classical|C  + discontinuity gate (texture-copy suppression)": {
-  "rmse_cm": 12.616347967972805,
-  "mae_cm": 5.900732127493884,
-  "boundary_rmse_cm": 30.44604113159202,
-  "edge_f1": 0.6339143442468406,
-  "texture_copy_rmse_cm": 7.367434828658041,
-  "ssim": 0.9350959773338055
- },
- "noisy+holes|8|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
-  "rmse_cm": 11.016715040951194,
-  "mae_cm": 5.138307602478646,
-  "boundary_rmse_cm": 28.55701148975997,
-  "edge_f1": 0.5666623046517613,
-  "texture_copy_rmse_cm": 5.44405138803396,
-  "ssim": 0.9511882228579637
- },
- "noisy+holes|8|classical|E  D + hard colour-plateau snap": {
-  "rmse_cm": 13.906539861936755,
-  "mae_cm": 5.649520900768243,
-  "boundary_rmse_cm": 35.76077119343372,
-  "edge_f1": 0.5638719700841388,
-  "texture_copy_rmse_cm": 6.724483164043906,
-  "ssim": 0.9425960013488144
- },
- "noisy+holes|8|hybrid|arbiter forced -> bicubic": {
-  "rmse_cm": 11.28660174793547,
-  "mae_cm": 5.370547770387266,
-  "boundary_rmse_cm": 29.033625249727844,
-  "edge_f1": 0.4223305684691329,
-  "texture_copy_rmse_cm": 5.665478806091523,
-  "ssim": 0.9479846366131663
- },
- "noisy+holes|8|hybrid|arbiter forced -> classical (E1)": {
-  "rmse_cm": 11.016715040951194,
-  "mae_cm": 5.138307602478646,
-  "boundary_rmse_cm": 28.55701148975997,
-  "edge_f1": 0.5666623046517613,
-  "texture_copy_rmse_cm": 5.44405138803396,
-  "ssim": 0.9511882228579637
- },
- "noisy+holes|8|hybrid|arbiter forced -> DL residual (E2)": {
-  "rmse_cm": 9.864946920908096,
-  "mae_cm": 4.755109791835244,
-  "boundary_rmse_cm": 24.281639076700195,
-  "edge_f1": 0.7169946643417854,
-  "texture_copy_rmse_cm": 5.65185437123259,
-  "ssim": 0.9575162280304198
- },
- "noisy+holes|8|hybrid|uniform average of experts": {
-  "rmse_cm": 10.235260423045123,
-  "mae_cm": 4.9494181956637835,
-  "boundary_rmse_cm": 25.800611717107994,
-  "edge_f1": 0.5960190302368282,
-  "texture_copy_rmse_cm": 5.480176862328861,
-  "ssim": 0.9555027684261317
- },
- "noisy+holes|8|hybrid|learned arbiter (Hybrid, ours)": {
-  "rmse_cm": 9.78947341635481,
-  "mae_cm": 4.710599692904323,
-  "boundary_rmse_cm": 24.228578258601956,
-  "edge_f1": 0.7089936047315522,
-  "texture_copy_rmse_cm": 5.527566663715232,
-  "ssim": 0.9583336549143879
- },
- "noisy+holes|4|classical|bicubic": {
-  "rmse_cm": 10.17818015600208,
-  "mae_cm": 4.988744293210611,
-  "boundary_rmse_cm": 22.22780942639125,
-  "edge_f1": 0.609961026199494,
-  "texture_copy_rmse_cm": 7.048832987812676,
-  "ssim": 0.9169449399914285
- },
- "noisy+holes|4|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
-  "rmse_cm": 9.01839722613958,
-  "mae_cm": 4.221124270113258,
-  "boundary_rmse_cm": 20.796228847866736,
-  "edge_f1": 0.6995300346497921,
-  "texture_copy_rmse_cm": 6.162593596422544,
-  "ssim": 0.9399045513811994
- },
- "noisy+holes|4|classical|B  + depth-consistency term": {
-  "rmse_cm": 9.38549172761742,
-  "mae_cm": 4.382421091601955,
-  "boundary_rmse_cm": 21.66915086548635,
-  "edge_f1": 0.7119070615087392,
-  "texture_copy_rmse_cm": 6.304951522736664,
-  "ssim": 0.9328348897544709
- },
- "noisy+holes|4|classical|C  + discontinuity gate (texture-copy suppression)": {
-  "rmse_cm": 9.399743352174353,
-  "mae_cm": 4.425237728503732,
-  "boundary_rmse_cm": 21.670824075075664,
-  "edge_f1": 0.7116914588945024,
-  "texture_copy_rmse_cm": 6.3199987206342225,
-  "ssim": 0.931847035766814
- },
- "noisy+holes|4|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
-  "rmse_cm": 7.638195304287791,
-  "mae_cm": 3.5953759694732215,
-  "boundary_rmse_cm": 19.64371210809596,
-  "edge_f1": 0.7195114244746849,
-  "texture_copy_rmse_cm": 4.135275577805405,
-  "ssim": 0.9589492425620121
- },
- "noisy+holes|4|classical|E  D + hard colour-plateau snap": {
-  "rmse_cm": 9.224563083459966,
-  "mae_cm": 3.8163618131461887,
-  "boundary_rmse_cm": 24.309284200155158,
-  "edge_f1": 0.7038854275304861,
-  "texture_copy_rmse_cm": 4.496455091087659,
-  "ssim": 0.9547031522320701
- },
- "noisy+holes|4|hybrid|arbiter forced -> bicubic": {
-  "rmse_cm": 7.8124116726275785,
-  "mae_cm": 3.711056241155197,
-  "boundary_rmse_cm": 19.926146367613114,
-  "edge_f1": 0.6908079726913204,
-  "texture_copy_rmse_cm": 4.209772612266831,
-  "ssim": 0.9570631420561286
- },
- "noisy+holes|4|hybrid|arbiter forced -> classical (E1)": {
-  "rmse_cm": 7.638195304287791,
-  "mae_cm": 3.5953759694732215,
-  "boundary_rmse_cm": 19.64371210809596,
-  "edge_f1": 0.7195114244746849,
-  "texture_copy_rmse_cm": 4.135275577805405,
-  "ssim": 0.9589492425620121
- },
- "noisy+holes|4|hybrid|arbiter forced -> DL residual (E2)": {
-  "rmse_cm": 6.259637742940764,
-  "mae_cm": 2.9766672757050925,
-  "boundary_rmse_cm": 15.861579092305863,
-  "edge_f1": 0.8638617501751853,
-  "texture_copy_rmse_cm": 3.581284224398287,
-  "ssim": 0.9741813840530273
- },
- "noisy+holes|4|hybrid|uniform average of experts": {
-  "rmse_cm": 6.897070871556046,
-  "mae_cm": 3.326047477814138,
-  "boundary_rmse_cm": 17.443760955892365,
-  "edge_f1": 0.7719250434041846,
-  "texture_copy_rmse_cm": 3.887995598329881,
-  "ssim": 0.9661319415174852
- },
- "noisy+holes|4|hybrid|learned arbiter (Hybrid, ours)": {
-  "rmse_cm": 6.272148398142311,
-  "mae_cm": 2.9925317199001324,
-  "boundary_rmse_cm": 15.869299539940243,
-  "edge_f1": 0.855370128932007,
-  "texture_copy_rmse_cm": 3.600948852154274,
-  "ssim": 0.9736472526841368
+ "clean|4|hybrid|deep learning only (no classical features)": {
+  "rmse_cm": 2.873648593820387,
+  "mae_cm": 1.0872270610345889,
+  "boundary_rmse_cm": 8.151123208281446,
+  "edge_f1": 0.9477334306780056,
+  "texture_copy_rmse_cm": 1.2104424611012419,
+  "ssim": 0.9932129218425759
  },
  "clean|8|classical|bicubic": {
   "rmse_cm": 7.932290311699648,
@@ -311,7 +151,7 @@
   "texture_copy_rmse_cm": 5.170073853289572,
   "ssim": 0.9462885269757774
  },
- "clean|8|hybrid|arbiter forced -> bicubic": {
+ "clean|8|hybrid|E0 only (bicubic)": {
   "rmse_cm": 7.9776942634784564,
   "mae_cm": 3.0909265725172204,
   "boundary_rmse_cm": 23.349010967109717,
@@ -319,7 +159,7 @@
   "texture_copy_rmse_cm": 2.68367675968046,
   "ssim": 0.9646029300551542
  },
- "clean|8|hybrid|arbiter forced -> classical (E1)": {
+ "clean|8|hybrid|E1 only (classical gated JBU)": {
   "rmse_cm": 7.984868129273588,
   "mae_cm": 2.863248224004011,
   "boundary_rmse_cm": 23.327938170429746,
@@ -327,28 +167,252 @@
   "texture_copy_rmse_cm": 2.574870805542252,
   "ssim": 0.9676651248646143
  },
- "clean|8|hybrid|arbiter forced -> DL residual (E2)": {
-  "rmse_cm": 5.88825161960082,
-  "mae_cm": 2.405915691816297,
-  "boundary_rmse_cm": 16.54371806312667,
-  "edge_f1": 0.8218793986240348,
-  "texture_copy_rmse_cm": 2.5176992305579247,
-  "ssim": 0.9767879813912576
+ "clean|8|hybrid|learned blend \u03b2 only (residual \u03b4 off)": {
+  "rmse_cm": 7.551888842129214,
+  "mae_cm": 2.911892746509048,
+  "boundary_rmse_cm": 22.123734417458877,
+  "edge_f1": 0.6182588806850362,
+  "texture_copy_rmse_cm": 2.570482012959101,
+  "ssim": 0.9682657977675848
  },
- "clean|8|hybrid|uniform average of experts": {
-  "rmse_cm": 6.6294811054592415,
-  "mae_cm": 2.632272568987028,
-  "boundary_rmse_cm": 19.155477900545115,
-  "edge_f1": 0.717754822592091,
-  "texture_copy_rmse_cm": 2.5007864696048046,
-  "ssim": 0.9731725063481009
+ "clean|8|hybrid|residual \u03b4 only (\u03b2 = 0)": {
+  "rmse_cm": 5.58491949498975,
+  "mae_cm": 2.298753172387788,
+  "boundary_rmse_cm": 15.755358585968992,
+  "edge_f1": 0.8053771688373296,
+  "texture_copy_rmse_cm": 2.39825072789832,
+  "ssim": 0.9780281148927683
  },
- "clean|8|hybrid|learned arbiter (Hybrid, ours)": {
+ "clean|8|hybrid|full hybrid: E0 + \u03b2(E1\u2212E0) + \u03b4  (ours)": {
+  "rmse_cm": 5.40679774628874,
+  "mae_cm": 2.176445975917423,
+  "boundary_rmse_cm": 15.263881185014588,
+  "edge_f1": 0.8351708082131191,
+  "texture_copy_rmse_cm": 2.3224801726979853,
+  "ssim": 0.9801261750016298
+ },
+ "clean|8|hybrid|v1 softmax-convex arbiter (superseded)": {
   "rmse_cm": 5.861479527753293,
   "mae_cm": 2.359479341462209,
   "boundary_rmse_cm": 16.609395507942423,
   "edge_f1": 0.8159424028549956,
   "texture_copy_rmse_cm": 2.4356152842000545,
   "ssim": 0.9771148123028786
+ },
+ "clean|8|hybrid|deep learning only (no classical features)": {
+  "rmse_cm": 5.245571161665835,
+  "mae_cm": 2.1105369927070865,
+  "boundary_rmse_cm": 14.788554429153146,
+  "edge_f1": 0.8917159731934113,
+  "texture_copy_rmse_cm": 2.2055073381272323,
+  "ssim": 0.9809806352701133
+ },
+ "noisy+holes|4|classical|bicubic": {
+  "rmse_cm": 10.17818015600208,
+  "mae_cm": 4.988744293210611,
+  "boundary_rmse_cm": 22.22780942639125,
+  "edge_f1": 0.609961026199494,
+  "texture_copy_rmse_cm": 7.048832987812676,
+  "ssim": 0.9169449399914285
+ },
+ "noisy+holes|4|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 9.01839722613958,
+  "mae_cm": 4.221124270113258,
+  "boundary_rmse_cm": 20.796228847866736,
+  "edge_f1": 0.6995300346497921,
+  "texture_copy_rmse_cm": 6.162593596422544,
+  "ssim": 0.9399045513811994
+ },
+ "noisy+holes|4|classical|B  + depth-consistency term": {
+  "rmse_cm": 9.38549172761742,
+  "mae_cm": 4.382421091601955,
+  "boundary_rmse_cm": 21.66915086548635,
+  "edge_f1": 0.7119070615087392,
+  "texture_copy_rmse_cm": 6.304951522736664,
+  "ssim": 0.9328348897544709
+ },
+ "noisy+holes|4|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 9.399743352174353,
+  "mae_cm": 4.425237728503732,
+  "boundary_rmse_cm": 21.670824075075664,
+  "edge_f1": 0.7116914588945024,
+  "texture_copy_rmse_cm": 6.3199987206342225,
+  "ssim": 0.931847035766814
+ },
+ "noisy+holes|4|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 7.638195304287791,
+  "mae_cm": 3.5953759694732215,
+  "boundary_rmse_cm": 19.64371210809596,
+  "edge_f1": 0.7195114244746849,
+  "texture_copy_rmse_cm": 4.135275577805405,
+  "ssim": 0.9589492425620121
+ },
+ "noisy+holes|4|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 9.224563083459966,
+  "mae_cm": 3.8163618131461887,
+  "boundary_rmse_cm": 24.309284200155158,
+  "edge_f1": 0.7038854275304861,
+  "texture_copy_rmse_cm": 4.496455091087659,
+  "ssim": 0.9547031522320701
+ },
+ "noisy+holes|4|hybrid|E0 only (bicubic)": {
+  "rmse_cm": 7.8124116726275785,
+  "mae_cm": 3.711056241155197,
+  "boundary_rmse_cm": 19.926146367613114,
+  "edge_f1": 0.6908079726913204,
+  "texture_copy_rmse_cm": 4.209772612266831,
+  "ssim": 0.9570631420561286
+ },
+ "noisy+holes|4|hybrid|E1 only (classical gated JBU)": {
+  "rmse_cm": 7.638195304287791,
+  "mae_cm": 3.5953759694732215,
+  "boundary_rmse_cm": 19.64371210809596,
+  "edge_f1": 0.7195114244746849,
+  "texture_copy_rmse_cm": 4.135275577805405,
+  "ssim": 0.9589492425620121
+ },
+ "noisy+holes|4|hybrid|learned blend \u03b2 only (residual \u03b4 off)": {
+  "rmse_cm": 7.581550847974202,
+  "mae_cm": 3.6347729063218814,
+  "boundary_rmse_cm": 19.29414438006423,
+  "edge_f1": 0.7057007547337861,
+  "texture_copy_rmse_cm": 4.166319220713414,
+  "ssim": 0.9584661171357087
+ },
+ "noisy+holes|4|hybrid|residual \u03b4 only (\u03b2 = 0)": {
+  "rmse_cm": 5.779374215292698,
+  "mae_cm": 2.7233565349185476,
+  "boundary_rmse_cm": 14.89712788398825,
+  "edge_f1": 0.8705263615761094,
+  "texture_copy_rmse_cm": 3.194736756608818,
+  "ssim": 0.9783670579459868
+ },
+ "noisy+holes|4|hybrid|full hybrid: E0 + \u03b2(E1\u2212E0) + \u03b4  (ours)": {
+  "rmse_cm": 5.685111326638237,
+  "mae_cm": 2.6852202992648615,
+  "boundary_rmse_cm": 14.64681424692412,
+  "edge_f1": 0.8724678853985417,
+  "texture_copy_rmse_cm": 3.181085957721037,
+  "ssim": 0.9789582020024508
+ },
+ "noisy+holes|4|hybrid|v1 softmax-convex arbiter (superseded)": {
+  "rmse_cm": 6.272148398142311,
+  "mae_cm": 2.9925317199001324,
+  "boundary_rmse_cm": 15.869299539940243,
+  "edge_f1": 0.855370128932007,
+  "texture_copy_rmse_cm": 3.600948852154274,
+  "ssim": 0.9736472526841368
+ },
+ "noisy+holes|4|hybrid|deep learning only (no classical features)": {
+  "rmse_cm": 6.675095576072151,
+  "mae_cm": 2.9050688653015713,
+  "boundary_rmse_cm": 17.44794702269874,
+  "edge_f1": 0.8688579250510582,
+  "texture_copy_rmse_cm": 3.5343517763446615,
+  "ssim": 0.974052748745932
+ },
+ "noisy+holes|8|classical|bicubic": {
+  "rmse_cm": 13.280397183417818,
+  "mae_cm": 6.4632721993286655,
+  "boundary_rmse_cm": 31.24069200389015,
+  "edge_f1": 0.42617035398905684,
+  "texture_copy_rmse_cm": 7.950684539235146,
+  "ssim": 0.9261083360385605
+ },
+ "noisy+holes|8|classical|A  plain JBU (no gate, no depth term, no clean-up)": {
+  "rmse_cm": 12.235928143906573,
+  "mae_cm": 5.6572258512680405,
+  "boundary_rmse_cm": 29.501815998204666,
+  "edge_f1": 0.6578023750663966,
+  "texture_copy_rmse_cm": 7.303912100553478,
+  "ssim": 0.9414891725616202
+ },
+ "noisy+holes|8|classical|B  + depth-consistency term": {
+  "rmse_cm": 12.583760129498287,
+  "mae_cm": 5.8202784572863715,
+  "boundary_rmse_cm": 30.404895160641765,
+  "edge_f1": 0.6460925173174143,
+  "texture_copy_rmse_cm": 7.349875829841963,
+  "ssim": 0.935702598328483
+ },
+ "noisy+holes|8|classical|C  + discontinuity gate (texture-copy suppression)": {
+  "rmse_cm": 12.616347967972805,
+  "mae_cm": 5.900732127493884,
+  "boundary_rmse_cm": 30.44604113159202,
+  "edge_f1": 0.6339143442468406,
+  "texture_copy_rmse_cm": 7.367434828658041,
+  "ssim": 0.9350959773338055
+ },
+ "noisy+holes|8|classical|D  + noise-adaptive LR clean-up  (= Classical, ours)": {
+  "rmse_cm": 11.016715040951194,
+  "mae_cm": 5.138307602478646,
+  "boundary_rmse_cm": 28.55701148975997,
+  "edge_f1": 0.5666623046517613,
+  "texture_copy_rmse_cm": 5.44405138803396,
+  "ssim": 0.9511882228579637
+ },
+ "noisy+holes|8|classical|E  D + hard colour-plateau snap": {
+  "rmse_cm": 13.906539861936755,
+  "mae_cm": 5.649520900768243,
+  "boundary_rmse_cm": 35.76077119343372,
+  "edge_f1": 0.5638719700841388,
+  "texture_copy_rmse_cm": 6.724483164043906,
+  "ssim": 0.9425960013488144
+ },
+ "noisy+holes|8|hybrid|E0 only (bicubic)": {
+  "rmse_cm": 11.28660174793547,
+  "mae_cm": 5.370547770387266,
+  "boundary_rmse_cm": 29.033625249727844,
+  "edge_f1": 0.4223305684691329,
+  "texture_copy_rmse_cm": 5.665478806091523,
+  "ssim": 0.9479846366131663
+ },
+ "noisy+holes|8|hybrid|E1 only (classical gated JBU)": {
+  "rmse_cm": 11.016715040951194,
+  "mae_cm": 5.138307602478646,
+  "boundary_rmse_cm": 28.55701148975997,
+  "edge_f1": 0.5666623046517613,
+  "texture_copy_rmse_cm": 5.44405138803396,
+  "ssim": 0.9511882228579637
+ },
+ "noisy+holes|8|hybrid|learned blend \u03b2 only (residual \u03b4 off)": {
+  "rmse_cm": 10.920323574212532,
+  "mae_cm": 5.221804081272496,
+  "boundary_rmse_cm": 28.11480803945682,
+  "edge_f1": 0.5062638342421729,
+  "texture_copy_rmse_cm": 5.52503952414808,
+  "ssim": 0.9505723623911315
+ },
+ "noisy+holes|8|hybrid|residual \u03b4 only (\u03b2 = 0)": {
+  "rmse_cm": 9.250977763792232,
+  "mae_cm": 4.412128084180762,
+  "boundary_rmse_cm": 23.04569841407558,
+  "edge_f1": 0.7201745361806501,
+  "texture_copy_rmse_cm": 5.216893643015118,
+  "ssim": 0.9632984634266959
+ },
+ "noisy+holes|8|hybrid|full hybrid: E0 + \u03b2(E1\u2212E0) + \u03b4  (ours)": {
+  "rmse_cm": 9.085327942105593,
+  "mae_cm": 4.324685212774627,
+  "boundary_rmse_cm": 22.666458407691863,
+  "edge_f1": 0.7265306366880054,
+  "texture_copy_rmse_cm": 5.1284884754676385,
+  "ssim": 0.9647495022949222
+ },
+ "noisy+holes|8|hybrid|v1 softmax-convex arbiter (superseded)": {
+  "rmse_cm": 9.78947341635481,
+  "mae_cm": 4.710599692904323,
+  "boundary_rmse_cm": 24.228578258601956,
+  "edge_f1": 0.7089936047315522,
+  "texture_copy_rmse_cm": 5.527566663715232,
+  "ssim": 0.9583336549143879
+ },
+ "noisy+holes|8|hybrid|deep learning only (no classical features)": {
+  "rmse_cm": 9.902645453297911,
+  "mae_cm": 4.448963540031907,
+  "boundary_rmse_cm": 25.197535109983324,
+  "edge_f1": 0.7403596228389493,
+  "texture_copy_rmse_cm": 5.185029910838762,
+  "ssim": 0.9614469981028038
  }
 }

@@ -50,13 +50,15 @@ def sample_pair(path: Path):
 
 st.title("EdgeGate — edge-preserving depth upsampling")
 st.caption("Sparse / low-resolution depth → dense high-resolution depth. Classical gated bilateral filtering "
-           "+ a learned arbiter that decides, per pixel, which estimate to trust.")
+           "+ a small learned blend-and-residual network. Pick a depth-quality regime and compare against interpolation, classical and deep-only baselines.")
 
 models = warm()
 if not all(models.values()):
     st.warning("Trained weights not found — learned methods are disabled. Run `python -m depthup.train`.")
 names_available = [n for n in SHOW if (n not in ("hybrid", "dl_only", "auto") or models.get(n))]
 
+quick = st.button("▶ Reconstruct  (uses the sidebar settings; a sample at 4× by default)", type="primary", use_container_width=True)
+msg = st.container()     # errors appear here, above the tabs, so they are never off-screen
 tab_run, tab_stages, tab_bench, tab_about = st.tabs(["Reconstruct", "Intermediate stages", "Benchmark results", "About"])
 
 with st.sidebar:
@@ -82,7 +84,7 @@ with st.sidebar:
         up_dep = st.file_uploader("Low-res depth (.npy / 16-bit png)", type=["npy", "npz", "png", "tif", "tiff"])
         unit = st.selectbox("Depth unit", ["auto", "metres", "millimetres", "relative"])
     methods = st.multiselect("Methods to compare", names_available, default=names_available)
-    go = st.button("Reconstruct", type="primary", use_container_width=True)
+    go = st.button("Reconstruct", type="primary", use_container_width=True) or quick
 
 state = st.session_state
 
@@ -117,7 +119,7 @@ def prepare():
 
 if go:
     if not methods:
-        st.error("Select at least one method.")
+        msg.error("Select at least one method.")
     else:
         try:
             with st.spinner("Reconstructing…"):
@@ -128,15 +130,15 @@ if go:
                     _, extra = pipeline.run_hybrid(job["lr"], job["valid"], job["rgb"], job["scale"], return_all=True)
             state["job"], state["outs"], state["lat"], state["extra"] = job, outs, lat, extra
         except dio.InputError as e:
-            st.error(str(e))
+            msg.error(str(e))
         except Exception as e:  # never show a stack trace to a judge
-            st.error(f"Something went wrong while reconstructing: {e}")
+            msg.error(f"Something went wrong while reconstructing: {e}")
 
 job = state.get("job")
 with tab_run:
     if not job:
-        st.info("Pick a sample (or upload your own) in the sidebar and press **Reconstruct**. "
-                "The first run takes a few seconds while models load.")
+        st.info("Press **Reconstruct** above to run the default sample, or open the sidebar (the **»** arrow, top-left on a phone) "
+                "to pick another sample, upload your own RGB + depth, or change the degradation.")
     else:
         rgb, gt, outs, lat = job["rgb"], job["gt"], state["outs"], state["lat"]
         st.caption(f"{job['note']} · LR {job['lr'].shape[1]}×{job['lr'].shape[0]} → HR {rgb.shape[1]}×{rgb.shape[0]} "
@@ -193,18 +195,18 @@ with tab_stages:
     else:
         o, w, rgb = ex["classical"], ex["weights"], job["rgb"]
         st.markdown("**Pipeline:** clean LR → bicubic base → depth-discontinuity detection → RGB gate → "
-                    "gated tri-lateral JBU → learned gate + residual.")
+                    "gated tri-lateral JBU → learned blend β + residual δ.")
         items = [("Missing-value mask (LR)", viz.zoom(np.where(job["valid"], 255, 40).astype(np.uint8)[..., None].repeat(3, -1), job["scale"])),
                  ("Bicubic base (cleaned)", viz.colorize(o.base)),
                  ("Depth discontinuities (LR step detector)", viz.gray(o.extras["soft"])),
-                 ("Gate (where RGB may influence depth)", viz.gray(o.extras["gate"])),
+                 ("Discontinuity gate G (where RGB may influence depth)", viz.gray(o.extras["gate"])),
                  ("RGB edges", viz.gray(o.extras["rgb_edge"])),
                  ("Edges RGB ∧ ¬depth (texture the gate blocks)", viz.gray(np.clip(o.extras["rgb_edge"] * (1 - o.extras["gate"]), 0, 1))),
                  ("Classical gated-JBU output", viz.colorize(o.depth)),
                  ("Colour-plateau snap candidate", viz.colorize(o.extras["snapped"])),
                  ("E0 + δ (residual only)", viz.colorize(ex["dl_branch"])),
-                 ("Gate: trust in bicubic (1−g)", viz.gray(w[0])),
-                 ("Gate g: trust in classical sharpening", viz.gray(w[1])),
+                 ("Learned blend 1−β (trust in bicubic)", viz.gray(w[0])),
+                 ("Learned blend β (trust in classical sharpening)", viz.gray(w[1])),
                  ("Learned residual |δ| (0–20 cm)", viz.gray(w[2]))]
         cols = st.columns(3)
         for i, (t, img) in enumerate(items):

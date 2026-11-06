@@ -3,7 +3,8 @@
 2. **Discontinuity detection** – a second-difference *step* detector on the low-res depth (steps are flagged, sloped floors/walls are not).
 3. **Gate** – RGB is only allowed to influence depth near detected depth discontinuities. Elsewhere the RGB range kernel is switched off, which blocks texture-copying.
 4. **Gated tri-lateral JBU** – joint bilateral upsampling with a spatially varying colour tolerance and a depth-consistency term (expert E1).
-5. **Learned arbiter** – a 0.22 M-parameter U-Net sees RGB, the classical outputs and the gate, predicts a residual, and chooses per pixel between bicubic (E0), classical (E1) and its own correction (E2).
+5. **Learned blend + residual** – a 0.22 M-parameter U-Net sees RGB, the classical outputs and the gate, and predicts a residual δ and a per-pixel blend β: `out = E0 + β(E1 − E0) + δ` (E0 = bicubic, E1 = classical). β = 0 is exactly the deep-only model.
+6. **Auto** – pristine input (no holes, low estimated noise) uses the deep-only network; noisy or incomplete input uses the hybrid.
 
 ### Using the app
 * **Simulate sensor** – pick a sample (NYU Depth V2 *test* frames) or upload RGB + dense depth. The app degrades the depth (resolution, noise, spikes, holes) and compares methods against the ground truth.

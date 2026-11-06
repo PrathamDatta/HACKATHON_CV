@@ -1,0 +1,119 @@
+clean: 441/449
+noisy: 141/150
+noisy+holes: 141/150
+nearest 2 {'median_ms': 1.560938000693568, 'p95_ms': 1.8478439997124951, 'peak_rss_mb': 266.5390625, 'warm_rss_mb': 266.5390625}
+nearest 4 {'median_ms': 1.3037839999014977, 'p95_ms': 1.370477000818937, 'peak_rss_mb': 265.6796875, 'warm_rss_mb': 265.5859375}
+nearest 8 {'median_ms': 1.0686799996619811, 'p95_ms': 1.2126769997848896, 'peak_rss_mb': 265.18359375, 'warm_rss_mb': 265.18359375}
+bilinear 2 {'median_ms': 2.2472309992735973, 'p95_ms': 2.3154629998316523, 'peak_rss_mb': 266.76953125, 'warm_rss_mb': 266.7265625}
+bilinear 4 {'median_ms': 2.278396999827237, 'p95_ms': 2.353093999772682, 'peak_rss_mb': 266.40625, 'warm_rss_mb': 266.35546875}
+bilinear 8 {'median_ms': 2.2167469996929867, 'p95_ms': 2.563396999903489, 'peak_rss_mb': 266.2890625, 'warm_rss_mb': 266.2421875}
+bicubic 2 {'median_ms': 3.0509040007018484, 'p95_ms': 3.3065810002881335, 'peak_rss_mb': 267.1640625, 'warm_rss_mb': 267.1640625}
+bicubic 4 {'median_ms': 3.064718999667093, 'p95_ms': 3.762750000532833, 'peak_rss_mb': 266.4609375, 'warm_rss_mb': 266.3671875}
+bicubic 8 {'median_ms': 2.7185309991182294, 'p95_ms': 2.9614199993375223, 'peak_rss_mb': 266.2109375, 'warm_rss_mb': 266.15234375}
+jbu 2 {'median_ms': 322.99006799985364, 'p95_ms': 359.7827710000274, 'peak_rss_mb': 391.625, 'warm_rss_mb': 391.57421875}
+jbu 4 {'median_ms': 336.4987880013359, 'p95_ms': 362.1052389989927, 'peak_rss_mb': 391.578125, 'warm_rss_mb': 388.0625}
+jbu 8 {'median_ms': 319.84843400095997, 'p95_ms': 331.39505100007227, 'peak_rss_mb': 388.01953125, 'warm_rss_mb': 387.94140625}
+guided 2 {'median_ms': 139.1843709989189, 'p95_ms': 162.88991900000838, 'peak_rss_mb': 337.05078125, 'warm_rss_mb': 336.578125}
+guided 4 {'median_ms': 130.6962039998325, 'p95_ms': 148.23210100075812, 'peak_rss_mb': 338.828125, 'warm_rss_mb': 338.828125}
+guided 8 {'median_ms': 147.58072800032096, 'p95_ms': 202.53245599997172, 'peak_rss_mb': 338.69921875, 'warm_rss_mb': 338.69921875}
+classical 2 {'median_ms': 450.94002899895713, 'p95_ms': 508.3065170001646, 'peak_rss_mb': 410.0234375, 'warm_rss_mb': 408.578125}
+classical 4 {'median_ms': 398.406033998981, 'p95_ms': 419.985231001192, 'peak_rss_mb': 409.4453125, 'warm_rss_mb': 409.04296875}
+classical 8 {'median_ms': 475.19238799941377, 'p95_ms': 510.4215179999301, 'peak_rss_mb': 409.203125, 'warm_rss_mb': 408.73046875}
+dl_only 2 {'median_ms': 169.07607699977234, 'p95_ms': 194.66287800059945, 'peak_rss_mb': 539.06640625, 'warm_rss_mb': 491.26953125}
+dl_only 4 {'median_ms': 162.03119000056176, 'p95_ms': 199.5111710002675, 'peak_rss_mb': 550.6875, 'warm_rss_mb': 509.05078125}
+dl_only 8 {'median_ms': 171.76055699928838, 'p95_ms': 186.32503499975428, 'peak_rss_mb': 531.76171875, 'warm_rss_mb': 508.953125}
+hybrid 2 {'median_ms': 656.4472320005734, 'p95_ms': 808.8799489996745, 'peak_rss_mb': 566.02734375, 'warm_rss_mb': 511.0703125}
+hybrid 4 {'median_ms': 526.5356250001787, 'p95_ms': 648.6911310003052, 'peak_rss_mb': 580.61328125, 'warm_rss_mb': 515.72265625}
+hybrid 8 {'median_ms': 621.2508989992784, 'p95_ms': 710.6872519998433, 'peak_rss_mb': 562.671875, 'warm_rss_mb': 520.38671875}
+auto 2 {'median_ms': 150.84595299958892, 'p95_ms': 171.294477999254, 'peak_rss_mb': 524.4609375, 'warm_rss_mb': 510.90234375}
+auto 4 {'median_ms': 163.80956200009678, 'p95_ms': 172.83523500009323, 'peak_rss_mb': 549.34375, 'warm_rss_mb': 510.796875}
+auto 8 {'median_ms': 140.76564500101085, 'p95_ms': 155.29215600145108, 'peak_rss_mb': 549.74609375, 'warm_rss_mb': 501.90234375}
+ablation 1/320
+ablation 41/320
+ablation 81/320
+ablation 121/320
+ablation 161/320
+ablation 201/320
+ablation 241/320
+ablation 281/320
+saved results/ablation.json
+/home/user/HACKATHON_CV/depthup/failures.py:58: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  k: {"spearman_vs_hybrid_rmse": float(spearmanr([stats[i][k] for i in idxs], y)[0]),
+/home/user/HACKATHON_CV/depthup/failures.py:59: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  "spearman_vs_gain_over_bicubic": float(spearmanr([stats[i][k] for i in idxs], gain)[0])}
+{
+ "clean@8x": {
+  "edge_density": {
+   "spearman_vs_hybrid_rmse": 0.9368370641230576,
+   "spearman_vs_gain_over_bicubic": 0.8440209208363362
+  },
+  "luminance": {
+   "spearman_vs_hybrid_rmse": 0.13288431965213698,
+   "spearman_vs_gain_over_bicubic": 0.15831596669848338
+  },
+  "mean_depth": {
+   "spearman_vs_hybrid_rmse": 0.6808529536536218,
+   "spearman_vs_gain_over_bicubic": 0.5994668045391875
+  },
+  "depth_range": {
+   "spearman_vs_hybrid_rmse": 0.8868227012408526,
+   "spearman_vs_gain_over_bicubic": 0.8257024870081662
+  },
+  "edge_colour_contrast": {
+   "spearman_vs_hybrid_rmse": -0.012153993000318166,
+   "spearman_vs_gain_over_bicubic": 0.10251816205323998
+  },
+  "texture_level": {
+   "spearman_vs_hybrid_rmse": 0.34690171280093324,
+   "spearman_vs_gain_over_bicubic": 0.27132980697847064
+  },
+  "thin_edge_ratio": {
+   "spearman_vs_hybrid_rmse": NaN,
+   "spearman_vs_gain_over_bicubic": NaN
+  },
+  "_summary": {
+   "n": 449,
+   "frac_hybrid_better_than_bicubic": 1.0,
+   "median_gain_cm": 2.0942651576066194,
+   "worst_regression_cm": 0.3048430042159067
+  }
+ },
+ "noisy+holes@4x": {
+  "edge_density": {
+   "spearman_vs_hybrid_rmse": 0.923710251497529,
+   "spearman_vs_gain_over_bicubic": 0.5386257853704861
+  },
+  "luminance": {
+   "spearman_vs_hybrid_rmse": 0.12371216498511045,
+   "spearman_vs_gain_over_bicubic": 0.2005404684652651
+  },
+  "mean_depth": {
+   "spearman_vs_hybrid_rmse": 0.7597511000488911,
+   "spearman_vs_gain_over_bicubic": 0.7209084848215476
+  },
+  "depth_range": {
+   "spearman_vs_hybrid_rmse": 0.9040632917018534,
+   "spearman_vs_gain_over_bicubic": 0.7051211164940664
+  },
+  "edge_colour_contrast": {
+   "spearman_vs_hybrid_rmse": 0.02948931063602827,
+   "spearman_vs_gain_over_bicubic": 0.17524867771900973
+  },
+  "texture_level": {
+   "spearman_vs_hybrid_rmse": 0.2537374994444198,
+   "spearman_vs_gain_over_bicubic": 0.09450197786568292
+  },
+  "thin_edge_ratio": {
+   "spearman_vs_hybrid_rmse": NaN,
+   "spearman_vs_gain_over_bicubic": NaN
+  },
+  "_summary": {
+   "n": 150,
+   "frac_hybrid_better_than_bicubic": 1.0,
+   "median_gain_cm": 4.072362740837246,
+   "worst_regression_cm": 2.8591013443008992
+  }
+ }
+}
+report done
+CHAIN2_DONE

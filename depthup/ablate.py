@@ -23,8 +23,8 @@ CLASSICAL_VARIANTS = {
     "D  + noise-adaptive LR clean-up  (= Classical, ours)": dict(use_gate=True, use_depth_term=True, use_clean=True),
     "E  D + hard colour-plateau snap": dict(use_gate=True, use_depth_term=True, use_clean=True, use_snap=True),
 }
-HYBRID_VARIANTS = ["E0 only (bicubic)", "E1 only (classical gated JBU)", "learned gate, residual delta switched off",
-                   "residual delta only (gate switched off)", "full hybrid: E0 + g(E1-E0) + delta  (ours)"]
+HYBRID_VARIANTS = ["E0 only (bicubic)", "E1 only (classical gated JBU)", "learned blend β only (residual δ off)",
+                   "residual δ only (β = 0)", "full hybrid: E0 + β(E1−E0) + δ  (ours)"]
 
 
 def _work(args):
