@@ -61,8 +61,17 @@ Either push the branch (`git add -A && git commit -m "GPU results" && git push`)
 `python scripts/gpu_pipeline.py --profile balanced --hours-per-model 1.25 --workers 6 --eval-procs 8` trains one seed of each model for about 1.25 h each (about 2.5 h) plus about 1.5 h of evaluation, roughly 4 h in total. Use `--ablation-frames 80` to trim the ablation stage further.
 
 ## 7. Deploying on Hugging Face Spaces (free CPU)
-1. Create a Space at huggingface.co/new-space: SDK **Docker**, hardware "CPU basic".
-2. `git remote add space https://huggingface.co/spaces/<user>/<space-name>`
-3. `git push space claude/practical-pasteur-0j1ipi:main` (username + a write-access HF token as the password).
-4. The README front matter already declares `sdk: docker` and `app_port: 8501`. The first build takes a few minutes.
-5. Open the URL, press Reconstruct, upload a bad file once to confirm the error message, then test on a phone.
+Hugging Face rejects a plain `git push` that contains files over 10 MB without Git LFS (`weights/dl_only_L.pt` is 36 MB). Use the upload API, which handles large files itself:
+```bash
+pip install -U huggingface_hub
+python - <<'PY'
+from huggingface_hub import HfApi, login
+login()                                   # paste a WRITE-access token from huggingface.co/settings/tokens
+api = HfApi()
+repo = "<your-hf-username>/edgegate"      # pick any name
+api.create_repo(repo, repo_type="space", space_sdk="docker", exist_ok=True)
+api.upload_folder(folder_path=".", repo_id=repo, repo_type="space",
+                  ignore_patterns=[".git/*", "data/*", ".venv/*", "results/gpu_run/*", "weights/*.resume.pt", "*.zip", "handoff/*", "__pycache__/*", "results/logs/*"])
+PY
+```
+The README front matter already declares `sdk: docker` and `app_port: 8501`; the first build takes several minutes (watch the Space's "Logs" tab). Then open the URL, press Reconstruct, upload a bad file once to confirm the error message, and test on a phone. Keep your token out of the repository.

@@ -1,6 +1,6 @@
 # Ablation study
 
-80 evenly-spaced **test** frames (subset of the 449; numbers differ slightly from the full-test table in `eval_P4_*.md`). Same degradations and seeds for every variant. RMSE and boundary RMSE in cm (lower is better), edge F1 higher is better, texture-copy RMSE (error where depth is flat but RGB textured) lower is better.
+80 evenly-spaced **test** frames (subset of the 449; numbers differ slightly from the full-test table in `eval_P4_*.md`). All classical and hybrid rows use the **small CPU-trained models**; the large deep-only model (`dl_only_L`) was trained afterwards and appears only in the main comparison (`eval_P4_*.md`). Same degradations and seeds for every variant. RMSE and boundary RMSE in cm (lower is better), edge F1 higher is better, texture-copy RMSE (error where depth is flat but RGB textured) lower is better.
 
 ## clean, 4x
 

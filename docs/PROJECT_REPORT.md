@@ -1,7 +1,7 @@
 # Project report: EdgeGate, edge-preserving depth map upsampling (Problem P4)
 
 *A study document. Read sections 1-3 first for the big picture, 4-6 for how it works, 7-9 for what we found, 10-12 for viva preparation.*
-*Status when written: all code, small CPU-trained models and their evaluation are complete. The large GPU-trained models are still to be trained on a laptop (see section 13), so every number below is from the small models unless stated.*
+*Status: all code, the small CPU-trained models, the large GPU-trained deep-only model (`dl_only_L`) and their evaluation are complete. Sections 8.1-8.3 describe the small models; section 8.4 adds the large model. The large hybrid and the seed ensemble were NOT trained (deadline).*
 
 ---
 
@@ -116,6 +116,27 @@ Reading it: the residual does most of the work; the learned blend adds a small e
 ### 8.3 Why the snap failed
 NYU ground truth is Kinect depth with inpainting, so its boundaries are soft. A hard decision "this pixel belongs to the near surface or the far surface" is perfectly sharp but, when wrong, costs the full depth jump (often more than a metre), and RMSE punishes that heavily.
 
+
+### 8.4 The large GPU-trained model (`dl_only_L`)
+RMSE in cm on the same held-out test frames as above (449 clean, 150 per noisy protocol):
+
+| Condition | Bicubic | Small deep-only | Small hybrid | **Large deep-only (dl_only_L)** |
+|---|---|---|---|---|
+| clean, 2x | 2.56 | 1.76 | 1.75 | **0.95** |
+| clean, 4x | 4.61 | 2.77 | 2.92 | **1.69** |
+| clean, 8x | 7.69 | 4.98 | 5.17 | **3.43** |
+| noisy, 2x | 6.71 | 2.51 | 2.54 | **1.88** |
+| noisy, 4x | 7.53 | 3.71 | 3.64 | **2.77** |
+| noisy, 8x | 9.20 | 5.70 | 5.73 | **4.35** |
+| noisy+holes, 2x | 7.52 | 3.61 | 3.18 | **2.48** |
+| noisy+holes, 4x | 8.90 | 5.48 | 4.72 | **3.82** |
+| noisy+holes, 8x | 11.31 | 8.21 | 7.58 | **6.11** |
+
+* It wins every cell on RMSE and boundary RMSE, typically 25-45% below the small deep-only model (e.g. clean 8x: 3.43 vs 4.98 cm).
+* Training: 12,350 steps, batch 16, 256 px crops, bf16, EMA, frames 0-949, best validation RMSE 1.686 cm; about 218,241 -> about 9 M parameters, 36 MB, roughly 2.6 s per image on 4 laptop-CPU threads.
+* **Important honesty point for the viva:** the best model has *no classical features*. The hybrid idea helped only the small models under noise and holes. We did not train a large hybrid, so we cannot say whether classical features would still help at large scale. The ablations (section 8.2) and failure analysis (section 9) were done on the small models.
+* Why bigger won: 40x more parameters, 50-100x more training signal (larger crops and batches, GPU, longer schedule), EMA weights and photometric augmentation, on 150 more training frames.
+
 ## 9. Failure analysis (`docs/FAILURES.md`)
 * **What predicts failure:** error correlates with **GT edge density (Spearman 0.94) and depth range (0.89)** - cluttered scenes with many large depth jumps - and is essentially unrelated to brightness or local colour contrast (|rho| <= 0.13). Our own hypothesis (low-contrast edges cause failures) was *not supported*.
 * **Worst frame 1015 (clean 8x, RMSE ~21 cm):** a dark corridor with a glass/mirror door. Door frames are narrower than one low-res cell (information is aliased away at 8x) and the glass region has depth unrelated to RGB structure. Hybrid ~ bicubic here.
@@ -153,7 +174,7 @@ DKN (deformable kernel networks, arXiv 1903.11286): texture copy from regular sa
 ## 13. Where the project stands and what is left
 **Done:** code (`depthup/`), small trained models, full evaluation, ablation, failure analysis, architecture diagram, design doc, README, Streamlit app (tested on desktop, phone viewport and bad-upload paths), Dockerfile, 17 unit tests, pushed to branch `claude/practical-pasteur-0j1ipi`.
 
-**Pending (local GPU run):** `python scripts/gpu_pipeline.py` trains larger models (about 9 M parameters, bf16, EMA, two seeds + flip test-time averaging), evaluates the full 449 test frames in all protocols, regenerates tables/figures/docs and writes `gpu_results.zip`. Estimated 12-14 h (`--profile max`), about 5.5-6 h (`balanced`), about 2.5-3 h (`quick`); it resumes if interrupted. See `docs/GPU_TRAINING.md` and `docs/HANDOFF_PROMPT.md`.
+**GPU run (done, partially):** `dl_only_L` was trained and evaluated on the laptop GPU. The large hybrid and the ensemble were cancelled because of the deadline; `scripts/gpu_pipeline.py` can still train them (see `docs/GPU_TRAINING.md`).
 
 **Pending (team):** live deployment (note: ordinary shared cPanel hosting often cannot run PyTorch/Streamlit; Hugging Face Spaces with the Docker file is the safer route; the large model may be slow on a free CPU host), USNs and team ID in `eval_P4_<TeamID>.md`, the organisers' design-doc template, viva preparation.
 

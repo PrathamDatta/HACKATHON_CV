@@ -1,6 +1,6 @@
 # Failure-case analysis
 
-Method: for every test frame we computed scene descriptors (GT edge density, depth range, mean depth, luminance, edge colour contrast, texture level) and correlated them (Spearman) with the hybrid's RMSE; we then inspected the worst frames (`results/failure_cases.json`, figures in `docs/figures/failure_*.png`).
+Method: for every test frame we computed scene descriptors (GT edge density, depth range, mean depth, luminance, edge colour contrast, texture level) and correlated them (Spearman) with the **small hybrid's** RMSE (the failure analysis was run before the large model existed; the same scene properties are expected to be hard for any model, but this was not re-checked); we then inspected the worst frames (`results/failure_cases.json`, figures in `docs/figures/failure_*.png`).
 
 ## What predicts failure
 
