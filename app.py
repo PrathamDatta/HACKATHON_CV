@@ -67,7 +67,7 @@ if not (models["hybrid"] and models["dl_only"]):
     st.warning("Trained weights not found — learned methods are disabled. Run `python -m depthup.train`.")
 names_available = [n for n in SHOW if (n not in models or models[n])]
 # the large model takes ~2.5 s per image on 4 CPU threads, so the default set is kept small enough for a free 2-vCPU host
-DEFAULT_METHODS = [n for n in ("bicubic", "auto", "dl_only_L") if n in names_available]   # classical (about 2.5 s on a free host) is optional in the sidebar
+DEFAULT_METHODS = [n for n in ("bicubic", "auto") if n in names_available]   # fast default; classical (~2.5 s) and the large model (~6-8 s) are optional on a free host
 
 quick = st.button("▶ Reconstruct  (uses the sidebar settings; a sample at 4× by default)", type="primary", use_container_width=True)
 msg = st.container()     # errors appear here, above the tabs, so they are never off-screen
@@ -96,6 +96,7 @@ with st.sidebar:
         up_dep = st.file_uploader("Low-res depth (.npy / 16-bit png)", type=["npy", "npz", "png", "tif", "tiff"])
         unit = st.selectbox("Depth unit", ["auto", "metres", "millimetres", "relative"])
     methods = st.multiselect("Methods to compare", names_available, default=DEFAULT_METHODS)
+    st.caption("Fast by default. Add **dl_only_L** for the most accurate (large, GPU-trained) model: it adds roughly 6-8 s on the free host. Add **classical** to see our gated classical stage (~2.5 s).")
     go = st.button("Reconstruct", type="primary", use_container_width=True) or quick
 
 state = st.session_state
