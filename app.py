@@ -135,10 +135,12 @@ if go:
         msg.error("Select at least one method.")
     else:
         try:
+            t_start = time.perf_counter()
             with st.spinner("Reconstructing…"):
                 job = prepare()
                 outs, lat = run_methods(job["lr"], job["valid"], job["rgb"], job["scale"], methods)
             state["job"], state["outs"], state["lat"], state["extra"] = job, outs, lat, None   # stages are computed on demand
+            state["elapsed"] = dict(prepare_and_infer=time.perf_counter() - t_start, infer_only=sum(lat.values()) / 1000)
         except dio.InputError as e:
             msg.error(str(e))
         except Exception as e:  # never show a stack trace to a judge
@@ -151,6 +153,9 @@ with tab_run:
                 "to pick another sample, upload your own RGB + depth, or change the degradation.")
     else:
         rgb, gt, outs, lat = job["rgb"], job["gt"], state["outs"], state["lat"]
+        el = state.get("elapsed")
+        if el:
+            st.caption(f"Server time: {el['prepare_and_infer']:.1f} s for loading + degrading + running the methods (of which model inference {el['infer_only']:.1f} s).")
         st.caption(f"{job['note']} · LR {job['lr'].shape[1]}×{job['lr'].shape[0]} → HR {rgb.shape[1]}×{rgb.shape[0]} "
                    f"({job['scale']}×) · {(~job['valid']).mean() * 100:.0f}% missing")
         allv = [job["lr"][job["valid"]]] + ([gt] if gt is not None else [])
