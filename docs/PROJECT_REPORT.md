@@ -133,7 +133,7 @@ RMSE in cm on the same held-out test frames as above (449 clean, 150 per noisy p
 | noisy+holes, 8x | 11.31 | 8.21 | 7.58 | **6.11** |
 
 * It wins every cell on RMSE and boundary RMSE, typically 25-45% below the small deep-only model (e.g. clean 8x: 3.43 vs 4.98 cm).
-* Training: 12,350 steps, batch 16, 256 px crops, bf16, EMA, frames 0-949, best validation RMSE 1.686 cm; about 218,241 -> about 9 M parameters, 36 MB, roughly 2.6 s per image on 4 laptop-CPU threads.
+* Training: 12,350 steps, batch 16, 256 px crops, bf16, EMA, frames 0-949, best validation RMSE 1.686 cm; about 9 M parameters, 36 MB, roughly 2.6 s per image on 4 laptop-CPU threads.
 * **Important honesty point for the viva:** the best model has *no classical features*. The hybrid idea helped only the small models under noise and holes. We did not train a large hybrid, so we cannot say whether classical features would still help at large scale. The ablations (section 8.2) and failure analysis (section 9) were done on the small models.
 * Why bigger won: 40x more parameters, 50-100x more training signal (larger crops and batches, GPU, longer schedule), EMA weights and photometric augmentation, on 150 more training frames.
 
