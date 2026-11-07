@@ -11,3 +11,4 @@ weights/*.resume.pt
 gpu_results*.zip
 handoff/
 results/gpu_run/
+.venv/

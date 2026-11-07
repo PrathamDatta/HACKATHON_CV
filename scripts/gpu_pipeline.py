@@ -26,7 +26,7 @@ L_ARMS = ["dl_only_L", "hybrid_L", "auto_L", "auto_L_tta", "auto_tta"]
 
 def sh(cmd, log=None, env=None):
     print("\n$", " ".join(map(str, cmd)), flush=True)
-    e = {**os.environ, **(env or {})}
+    e = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", **(env or {})}  # Windows: default cp1252 breaks write_text of docs
     out = open(RUN / log, "a") if log else None
     r = subprocess.run([str(c) for c in cmd], cwd=ROOT, env=e, stdout=out, stderr=subprocess.STDOUT if out else None)
     if out:
@@ -41,7 +41,7 @@ def stage(name):
 
 
 def probe(kind, cfg_args, common):
-    r = subprocess.run([PY, "-m", "depthup.train", "--kind", kind, "--probe", "--tag", "probe", *cfg_args, *common],
+    r = subprocess.run([PY, "-m", "depthup.train", "--kind", kind, "--probe", "--minutes", "5", "--tag", "probe", *cfg_args, *common],
                        cwd=ROOT, capture_output=True, text=True)
     m = re.search(r"PROBE its_per_s ([\d.]+)", r.stdout)
     if not m:

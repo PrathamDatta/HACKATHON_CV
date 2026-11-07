@@ -11,21 +11,22 @@ Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing value
 
 ## Results (NYU Depth V2, held-out test frames; RMSE in cm, lower is better)
 
-| Condition | Bicubic | Joint bilateral | Classical (ours) | Deep only | Hybrid v2 (ours) | **Auto (ours)** |
-|---|---|---|---|---|---|---|
-| clean, 2x (n=449) | 2.56 | 2.60 | 2.86 | 1.76 | **1.75** | 1.76 |
-| clean, 4x (n=449) | 4.61 | 4.47 | 4.77 | **2.77** | 2.92 | 2.77 |
-| clean, 8x (n=449) | 7.69 | 7.49 | 7.69 | **4.98** | 5.17 | 5.00 |
-| noisy, 2x (n=150) | 6.71 | 5.50 | 4.06 | **2.51** | 2.54 | 2.54 |
-| noisy, 4x (n=150) | 7.53 | 6.41 | 5.33 | 3.71 | **3.64** | 3.64 |
-| noisy, 8x (n=150) | 9.20 | 8.30 | 7.57 | **5.70** | 5.73 | 5.73 |
-| noisy+holes, 2x (n=150) | 7.52 | 6.30 | 4.65 | 3.61 | **3.18** | **3.18** |
-| noisy+holes, 4x (n=150) | 8.90 | 7.75 | 6.37 | 5.48 | **4.72** | **4.72** |
-| noisy+holes, 8x (n=150) | 11.31 | 10.23 | 9.13 | 8.21 | **7.58** | 7.58 |
+| Condition | Bicubic | Joint bilateral | Classical (ours) | Deep only (small) | Hybrid v2 (small) | Auto (small) | Deep only-L (GPU) |
+|---|---|---|---|---|---|---|---|
+| clean, 2x (n=449) | 2.56 | 2.60 | 2.86 | 1.76 | 1.75 | 1.76 | **0.95** |
+| clean, 4x (n=449) | 4.61 | 4.47 | 4.77 | 2.77 | 2.92 | 2.77 | **1.69** |
+| clean, 8x (n=449) | 7.69 | 7.49 | 7.69 | 4.98 | 5.17 | 5.00 | **3.43** |
+| noisy, 2x (n=150) | 6.71 | 5.50 | 4.06 | 2.51 | 2.54 | 2.54 | **1.88** |
+| noisy, 4x (n=150) | 7.53 | 6.41 | 5.33 | 3.71 | 3.64 | 3.64 | **2.77** |
+| noisy, 8x (n=150) | 9.20 | 8.30 | 7.57 | 5.70 | 5.73 | 5.73 | **4.35** |
+| noisy+holes, 2x (n=150) | 7.52 | 6.30 | 4.65 | 3.61 | 3.18 | 3.18 | **2.48** |
+| noisy+holes, 4x (n=150) | 8.90 | 7.75 | 6.37 | 5.48 | 4.72 | 4.72 | **3.82** |
+| noisy+holes, 8x (n=150) | 11.31 | 10.23 | 9.13 | 8.21 | 7.58 | 7.58 | **6.11** |
 
 * All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T01.md`**.
-* **Honest summary:** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
-* Latency, 480x640, 4 CPU threads, median: bicubic 3 ms, classical 398 ms, deep-only 162 ms, hybrid 527 ms. Model files: about 0.86 MB each.
+* **Best arm per protocol (generated from the table):** `clean`: Deep only-L (GPU) best at 3/3 scales; `noisy`: Deep only-L (GPU) best at 3/3 scales; `noisy+holes`: Deep only-L (GPU) best at 3/3 scales.
+* **Honest summary (CPU-trained small models):** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
+* Latency, 480x640, 4 CPU threads, median: bicubic 1 ms, classical 323 ms, deep-only 99 ms, hybrid 430 ms. Model files: about 0.86 MB each.
 * Depth units are *assumed* (raw x 10 m); only relative comparisons between methods are meaningful in absolute terms.
 
 ![qualitative](docs/figures/qualitative_4x_noisy_holes.png)

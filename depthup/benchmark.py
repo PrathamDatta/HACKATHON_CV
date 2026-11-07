@@ -11,8 +11,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CHILD = r"""
-import sys, time, json, resource
+import sys, time, json
 sys.path.insert(0, %r)
+def peak_mb():
+    try:
+        import resource
+        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+    except ImportError:   # Windows: peak working set via psapi
+        import ctypes
+        from ctypes import wintypes
+        class PMC(ctypes.Structure):
+            _fields_ = [('cb', wintypes.DWORD), ('PageFaultCount', wintypes.DWORD)] + [(n, ctypes.c_size_t) for n in (
+                'PeakWorkingSetSize', 'WorkingSetSize', 'QuotaPeakPagedPoolUsage', 'QuotaPagedPoolUsage',
+                'QuotaPeakNonPagedPoolUsage', 'QuotaNonPagedPoolUsage', 'PagefileUsage', 'PeakPagefileUsage')]
+        pmc = PMC(); pmc.cb = ctypes.sizeof(PMC)
+        k32 = ctypes.WinDLL('kernel32', use_last_error=True); k32.GetCurrentProcess.restype = wintypes.HANDLE
+        ctypes.WinDLL('psapi').GetProcessMemoryInfo(wintypes.HANDLE(k32.GetCurrentProcess()), ctypes.byref(pmc), pmc.cb)
+        return pmc.PeakWorkingSetSize / 2**20
 import numpy as np, torch
 torch.set_num_threads(%d)
 from depthup import data, degrade, pipeline
@@ -26,11 +41,11 @@ if method == 'dl_only_L':
 if method in ('hybrid_L', 'auto_L'):
     pipeline.load_model('dl_only_L'); pipeline.load_model('hybrid_L')
 pipeline.METHODS[method](lr, valid, rgb, scale)          # warm-up
-base = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+base = peak_mb()
 ts = []
 for _ in range(12):
     t = time.perf_counter(); pipeline.METHODS[method](lr, valid, rgb, scale); ts.append((time.perf_counter() - t) * 1000)
-peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+peak = peak_mb()
 ts = sorted(ts)
 print(json.dumps(dict(median_ms=ts[len(ts)//2], p95_ms=ts[-2], peak_rss_mb=peak, warm_rss_mb=base)))
 """

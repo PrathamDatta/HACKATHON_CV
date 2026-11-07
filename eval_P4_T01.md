@@ -20,6 +20,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 1.95 | 0.68 |
 | 2x | Hybrid (ours) | 1.75 | 0.60 |
 | 2x | EdgeGate-Auto (ours) | 1.76 | 0.64 |
+| 2x | Deep-only-L (GPU-trained) | 0.95 | 0.34 |
 | 4x | Nearest | 6.55 | 2.09 |
 | 4x | Bilinear | 5.11 | 1.70 |
 | 4x | Bicubic | 4.61 | 1.54 |
@@ -30,6 +31,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 3.04 | 1.13 |
 | 4x | Hybrid (ours) | 2.92 | 1.09 |
 | 4x | EdgeGate-Auto (ours) | 2.77 | 1.06 |
+| 4x | Deep-only-L (GPU-trained) | 1.69 | 0.65 |
 | 8x | Nearest | 10.40 | 3.96 |
 | 8x | Bilinear | 8.39 | 3.32 |
 | 8x | Bicubic | 7.69 | 3.05 |
@@ -40,6 +42,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 5.60 | 2.30 |
 | 8x | Hybrid (ours) | 5.17 | 2.12 |
 | 8x | EdgeGate-Auto (ours) | 5.00 | 2.05 |
+| 8x | Deep-only-L (GPU-trained) | 3.43 | 1.40 |
 
 ### 2. PSNR (dB) and SSIM (higher is better)
 
@@ -55,6 +58,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 49.36 | 0.997 |
 | 2x | Hybrid (ours) | 50.27 | 0.997 |
 | 2x | EdgeGate-Auto (ours) | 50.18 | 0.997 |
+| 2x | Deep-only-L (GPU-trained) | 55.58 | 0.999 |
 | 4x | Nearest | 38.97 | 0.971 |
 | 4x | Bilinear | 41.19 | 0.982 |
 | 4x | Bicubic | 42.10 | 0.984 |
@@ -65,6 +69,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 45.59 | 0.992 |
 | 4x | Hybrid (ours) | 45.90 | 0.992 |
 | 4x | EdgeGate-Auto (ours) | 46.37 | 0.993 |
+| 4x | Deep-only-L (GPU-trained) | 50.56 | 0.997 |
 | 8x | Nearest | 34.95 | 0.932 |
 | 8x | Bilinear | 36.87 | 0.962 |
 | 8x | Bicubic | 37.63 | 0.964 |
@@ -75,6 +80,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 40.23 | 0.977 |
 | 8x | Hybrid (ours) | 40.94 | 0.980 |
 | 8x | EdgeGate-Auto (ours) | 41.21 | 0.981 |
+| 8x | Deep-only-L (GPU-trained) | 44.45 | 0.989 |
 
 ### 3. Edge preservation and boundary accuracy
 
@@ -90,6 +96,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 5.55 | 0.984 | 0.94 |
 | 2x | Hybrid (ours) | 5.00 | 0.984 | 0.82 |
 | 2x | EdgeGate-Auto (ours) | 5.01 | 0.985 | 0.84 |
+| 2x | Deep-only-L (GPU-trained) | 2.65 | 0.997 | 0.43 |
 | 4x | Nearest | 19.30 | 0.931 | 2.31 |
 | 4x | Bilinear | 15.16 | 0.675 | 1.70 |
 | 4x | Bicubic | 13.57 | 0.740 | 1.54 |
@@ -100,6 +107,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 8.63 | 0.935 | 1.39 |
 | 4x | Hybrid (ours) | 8.28 | 0.945 | 1.34 |
 | 4x | EdgeGate-Auto (ours) | 7.84 | 0.950 | 1.19 |
+| 4x | Deep-only-L (GPU-trained) | 4.70 | 0.989 | 0.80 |
 | 8x | Nearest | 29.92 | 0.715 | 3.51 |
 | 8x | Bilinear | 24.39 | 0.367 | 2.60 |
 | 8x | Bicubic | 22.37 | 0.447 | 2.64 |
@@ -110,6 +118,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 15.84 | 0.816 | 2.41 |
 | 8x | Hybrid (ours) | 14.57 | 0.836 | 2.30 |
 | 8x | EdgeGate-Auto (ours) | 14.05 | 0.895 | 2.17 |
+| 8x | Deep-only-L (GPU-trained) | 9.46 | 0.946 | 1.66 |
 
 ## Protocol `noisy`  (n = 150 test frames)
 
@@ -127,6 +136,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 2.79 | 1.54 |
 | 2x | Hybrid (ours) | 2.54 | 1.41 |
 | 2x | EdgeGate-Auto (ours) | 2.54 | 1.41 |
+| 2x | Deep-only-L (GPU-trained) | 1.88 | 1.13 |
 | 4x | Nearest | 9.67 | 4.93 |
 | 4x | Bilinear | 6.77 | 3.53 |
 | 4x | Bicubic | 7.53 | 4.05 |
@@ -137,6 +147,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 4.07 | 2.28 |
 | 4x | Hybrid (ours) | 3.64 | 1.98 |
 | 4x | EdgeGate-Auto (ours) | 3.64 | 1.98 |
+| 4x | Deep-only-L (GPU-trained) | 2.77 | 1.57 |
 | 8x | Nearest | 11.91 | 5.99 |
 | 8x | Bilinear | 8.85 | 4.57 |
 | 8x | Bicubic | 9.20 | 4.92 |
@@ -147,6 +158,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 6.41 | 3.47 |
 | 8x | Hybrid (ours) | 5.73 | 3.06 |
 | 8x | EdgeGate-Auto (ours) | 5.73 | 3.06 |
+| 8x | Deep-only-L (GPU-trained) | 4.35 | 2.38 |
 
 ### 2. PSNR (dB) and SSIM (higher is better)
 
@@ -162,6 +174,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 44.75 | 0.986 |
 | 2x | Hybrid (ours) | 45.61 | 0.989 |
 | 2x | EdgeGate-Auto (ours) | 45.62 | 0.989 |
+| 2x | Deep-only-L (GPU-trained) | 48.24 | 0.993 |
 | 4x | Nearest | 33.66 | 0.875 |
 | 4x | Bilinear | 36.82 | 0.938 |
 | 4x | Bicubic | 35.80 | 0.918 |
@@ -172,6 +185,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 41.50 | 0.977 |
 | 4x | Hybrid (ours) | 42.54 | 0.983 |
 | 4x | EdgeGate-Auto (ours) | 42.53 | 0.983 |
+| 4x | Deep-only-L (GPU-trained) | 44.93 | 0.989 |
 | 8x | Nearest | 32.05 | 0.879 |
 | 8x | Bilinear | 34.73 | 0.942 |
 | 8x | Bicubic | 34.25 | 0.933 |
@@ -182,6 +196,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 37.63 | 0.964 |
 | 8x | Hybrid (ours) | 38.62 | 0.972 |
 | 8x | EdgeGate-Auto (ours) | 38.62 | 0.972 |
+| 8x | Deep-only-L (GPU-trained) | 41.04 | 0.981 |
 
 ### 3. Edge preservation and boundary accuracy
 
@@ -197,6 +212,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 6.56 | 0.936 | 2.22 |
 | 2x | Hybrid (ours) | 6.43 | 0.956 | 1.91 |
 | 2x | EdgeGate-Auto (ours) | 6.44 | 0.956 | 1.90 |
+| 2x | Deep-only-L (GPU-trained) | 4.31 | 0.980 | 1.54 |
 | 4x | Nearest | 19.27 | 0.655 | 8.00 |
 | 4x | Bilinear | 14.65 | 0.529 | 5.30 |
 | 4x | Bicubic | 13.91 | 0.554 | 6.42 |
@@ -207,6 +223,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 9.75 | 0.880 | 3.13 |
 | 4x | Hybrid (ours) | 9.44 | 0.902 | 2.62 |
 | 4x | EdgeGate-Auto (ours) | 9.45 | 0.902 | 2.62 |
+| 4x | Deep-only-L (GPU-trained) | 6.89 | 0.953 | 2.11 |
 | 8x | Nearest | 28.29 | 0.557 | 8.40 |
 | 8x | Bilinear | 22.59 | 0.308 | 5.70 |
 | 8x | Bicubic | 21.24 | 0.365 | 6.72 |
@@ -217,6 +234,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 16.22 | 0.736 | 4.50 |
 | 8x | Hybrid (ours) | 14.93 | 0.793 | 3.99 |
 | 8x | EdgeGate-Auto (ours) | 14.93 | 0.793 | 3.99 |
+| 8x | Deep-only-L (GPU-trained) | 11.48 | 0.891 | 3.03 |
 
 ## Protocol `noisy+holes`  (n = 150 test frames)
 
@@ -234,6 +252,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 3.45 | 1.73 |
 | 2x | Hybrid (ours) | 3.18 | 1.61 |
 | 2x | EdgeGate-Auto (ours) | 3.18 | 1.61 |
+| 2x | Deep-only-L (GPU-trained) | 2.48 | 1.30 |
 | 4x | Nearest | 10.83 | 5.30 |
 | 4x | Bilinear | 8.04 | 3.97 |
 | 4x | Bicubic | 8.90 | 4.50 |
@@ -244,6 +263,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 5.20 | 2.62 |
 | 4x | Hybrid (ours) | 4.72 | 2.34 |
 | 4x | EdgeGate-Auto (ours) | 4.72 | 2.34 |
+| 4x | Deep-only-L (GPU-trained) | 3.82 | 1.88 |
 | 8x | Nearest | 13.79 | 6.69 |
 | 8x | Bilinear | 10.67 | 5.26 |
 | 8x | Bicubic | 11.31 | 5.69 |
@@ -254,6 +274,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 8.20 | 4.09 |
 | 8x | Hybrid (ours) | 7.58 | 3.75 |
 | 8x | EdgeGate-Auto (ours) | 7.58 | 3.75 |
+| 8x | Deep-only-L (GPU-trained) | 6.11 | 2.96 |
 
 ### 2. PSNR (dB) and SSIM (higher is better)
 
@@ -269,6 +290,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 43.10 | 0.984 |
 | 2x | Hybrid (ours) | 43.84 | 0.987 |
 | 2x | EdgeGate-Auto (ours) | 43.84 | 0.987 |
+| 2x | Deep-only-L (GPU-trained) | 45.95 | 0.991 |
 | 4x | Nearest | 32.78 | 0.871 |
 | 4x | Bilinear | 35.44 | 0.932 |
 | 4x | Bicubic | 34.47 | 0.912 |
@@ -279,6 +301,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 39.51 | 0.974 |
 | 4x | Hybrid (ours) | 40.39 | 0.979 |
 | 4x | EdgeGate-Auto (ours) | 40.39 | 0.979 |
+| 4x | Deep-only-L (GPU-trained) | 42.23 | 0.986 |
 | 8x | Nearest | 30.90 | 0.873 |
 | 8x | Bilinear | 33.22 | 0.935 |
 | 8x | Bicubic | 32.62 | 0.925 |
@@ -289,6 +312,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 35.65 | 0.959 |
 | 8x | Hybrid (ours) | 36.37 | 0.965 |
 | 8x | EdgeGate-Auto (ours) | 36.37 | 0.965 |
+| 8x | Deep-only-L (GPU-trained) | 38.25 | 0.976 |
 
 ### 3. Edge preservation and boundary accuracy
 
@@ -304,6 +328,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 2x | Hybrid v1 (softmax arbiter) | 9.10 | 0.932 | 2.36 |
 | 2x | Hybrid (ours) | 8.55 | 0.944 | 2.10 |
 | 2x | EdgeGate-Auto (ours) | 8.55 | 0.944 | 2.10 |
+| 2x | Deep-only-L (GPU-trained) | 6.42 | 0.969 | 1.76 |
 | 4x | Nearest | 24.03 | 0.633 | 8.23 |
 | 4x | Bilinear | 18.95 | 0.531 | 5.77 |
 | 4x | Bicubic | 19.29 | 0.560 | 6.83 |
@@ -314,6 +339,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 4x | Hybrid v1 (softmax arbiter) | 13.77 | 0.844 | 3.36 |
 | 4x | Hybrid (ours) | 12.79 | 0.863 | 2.98 |
 | 4x | EdgeGate-Auto (ours) | 12.79 | 0.863 | 2.98 |
+| 4x | Deep-only-L (GPU-trained) | 10.37 | 0.928 | 2.49 |
 | 8x | Nearest | 33.06 | 0.506 | 9.22 |
 | 8x | Bilinear | 26.94 | 0.311 | 6.64 |
 | 8x | Bicubic | 26.82 | 0.363 | 7.65 |
@@ -324,6 +350,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | 8x | Hybrid v1 (softmax arbiter) | 20.98 | 0.690 | 5.17 |
 | 8x | Hybrid (ours) | 19.61 | 0.709 | 4.77 |
 | 8x | EdgeGate-Auto (ours) | 19.61 | 0.709 | 4.77 |
+| 8x | Deep-only-L (GPU-trained) | 16.14 | 0.838 | 3.90 |
 
 ## 4. Performance across upsampling factors (RMSE cm, clean protocol)
 
@@ -339,6 +366,7 @@ Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): 
 | Hybrid v1 (softmax arbiter) | 1.95 | 3.04 | 5.60 |
 | Hybrid (ours) | 1.75 | 2.92 | 5.17 |
 | EdgeGate-Auto (ours) | 1.76 | 2.77 | 5.00 |
+| Deep-only-L (GPU-trained) | 0.95 | 1.69 | 3.43 |
 
 ## 5. Processing latency and memory (480x640 input, 4 CPU threads, fresh process per method)
 
@@ -346,35 +374,38 @@ Parameters: hybrid 218,978, deep-only 218,241. Weight files: hybrid 865 KB, dl_o
 
 | Method | Scale | Median ms | p95 ms | Peak RSS MB | RSS growth MB |
 |---|---|---|---|---|---|
-| Nearest | 2x | 2 | 2 | 267 | 0 |
-| Nearest | 4x | 1 | 1 | 266 | 0 |
-| Nearest | 8x | 1 | 1 | 265 | 0 |
-| Bilinear | 2x | 2 | 2 | 267 | 0 |
-| Bilinear | 4x | 2 | 2 | 266 | 0 |
-| Bilinear | 8x | 2 | 3 | 266 | 0 |
-| Bicubic | 2x | 3 | 3 | 267 | 0 |
-| Bicubic | 4x | 3 | 4 | 266 | 0 |
-| Bicubic | 8x | 3 | 3 | 266 | 0 |
-| Joint bilateral (JBU) | 2x | 323 | 360 | 392 | 0 |
-| Joint bilateral (JBU) | 4x | 336 | 362 | 392 | 4 |
-| Joint bilateral (JBU) | 8x | 320 | 331 | 388 | 0 |
-| Guided filter | 2x | 139 | 163 | 337 | 0 |
-| Guided filter | 4x | 131 | 148 | 339 | 0 |
-| Guided filter | 8x | 148 | 203 | 339 | 0 |
-| Classical (ours: gated JBU) | 2x | 451 | 508 | 410 | 1 |
-| Classical (ours: gated JBU) | 4x | 398 | 420 | 409 | 0 |
-| Classical (ours: gated JBU) | 8x | 475 | 510 | 409 | 0 |
-| Deep learning only | 2x | 169 | 195 | 539 | 48 |
-| Deep learning only | 4x | 162 | 200 | 551 | 42 |
-| Deep learning only | 8x | 172 | 186 | 532 | 23 |
-| Hybrid (ours) | 2x | 656 | 809 | 566 | 55 |
-| Hybrid (ours) | 4x | 527 | 649 | 581 | 65 |
-| Hybrid (ours) | 8x | 621 | 711 | 563 | 42 |
-| EdgeGate-Auto (ours) | 2x | 151 | 171 | 524 | 14 |
-| EdgeGate-Auto (ours) | 4x | 164 | 173 | 549 | 39 |
-| EdgeGate-Auto (ours) | 8x | 141 | 155 | 550 | 48 |
+| Nearest | 2x | 1 | 1 | 527 | 0 |
+| Nearest | 4x | 1 | 1 | 526 | 0 |
+| Nearest | 8x | 1 | 1 | 526 | 0 |
+| Bilinear | 2x | 1 | 1 | 528 | 0 |
+| Bilinear | 4x | 1 | 1 | 527 | 0 |
+| Bilinear | 8x | 1 | 1 | 527 | 0 |
+| Bicubic | 2x | 1 | 1 | 528 | 0 |
+| Bicubic | 4x | 1 | 1 | 527 | 0 |
+| Bicubic | 8x | 1 | 1 | 528 | 0 |
+| Joint bilateral (JBU) | 2x | 228 | 239 | 631 | 0 |
+| Joint bilateral (JBU) | 4x | 239 | 246 | 631 | 0 |
+| Joint bilateral (JBU) | 8x | 227 | 249 | 630 | 0 |
+| Guided filter | 2x | 94 | 94 | 592 | 0 |
+| Guided filter | 4x | 93 | 94 | 592 | 0 |
+| Guided filter | 8x | 93 | 94 | 593 | 0 |
+| Classical (ours: gated JBU) | 2x | 313 | 340 | 657 | 7 |
+| Classical (ours: gated JBU) | 4x | 323 | 334 | 651 | 3 |
+| Classical (ours: gated JBU) | 8x | 320 | 336 | 649 | 1 |
+| Deep learning only | 2x | 100 | 123 | 762 | 12 |
+| Deep learning only | 4x | 99 | 102 | 761 | 11 |
+| Deep learning only | 8x | 101 | 111 | 761 | 11 |
+| Hybrid (ours) | 2x | 453 | 477 | 881 | 102 |
+| Hybrid (ours) | 4x | 430 | 456 | 871 | 97 |
+| Hybrid (ours) | 8x | 433 | 467 | 869 | 96 |
+| EdgeGate-Auto (ours) | 2x | 104 | 108 | 763 | 11 |
+| EdgeGate-Auto (ours) | 4x | 105 | 108 | 761 | 12 |
+| EdgeGate-Auto (ours) | 8x | 103 | 110 | 762 | 11 |
+| Deep-only-L (GPU-trained) | 2x | 2337 | 2570 | 1491 | 36 |
+| Deep-only-L (GPU-trained) | 4x | 2585 | 3154 | 1490 | 35 |
+| Deep-only-L (GPU-trained) | 8x | 2258 | 2407 | 1489 | 35 |
 
-## 6a. Statistical check: hybrid minus bicubic (paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)
+## 6. Statistical check: hybrid minus bicubic (paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)
 
 | Protocol | Scale | Metric | Mean diff | 95% CI | n |
 |---|---|---|---|---|---|
@@ -397,7 +428,7 @@ Parameters: hybrid 218,978, deep-only 218,241. Weight files: hybrid 865 KB, dl_o
 | noisy+holes | 8x | rmse_cm | -3.733 | [-3.923, -3.552] | 150 |
 | noisy+holes | 8x | boundary_rmse_cm | -7.218 | [-7.770, -6.662] | 150 |
 
-## 6b. Statistical check: hybrid minus dl_only (paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)
+## 6. Statistical check: hybrid minus dl_only (paired bootstrap, 95% CI; negative = hybrid better; a CI that contains 0 means no reliable difference)
 
 | Protocol | Scale | Metric | Mean diff | 95% CI | n |
 |---|---|---|---|---|---|
