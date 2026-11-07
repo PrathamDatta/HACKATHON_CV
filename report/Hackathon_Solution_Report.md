@@ -4,9 +4,9 @@
 | :---- | :---- |
 | **Problem ID** | P4 |
 | **Problem Title** | Edge-Preserving Depth Map Upsampling and Refinement |
-| **Team Name** | `[TEAM TO FILL: registered team name]` |
-| **Team Members** | `[TEAM TO FILL: full names and USNs]` |
-| **GitHub Repository** | https://github.com/PrathamDatta/HACKATHON_CV (branch `claude/practical-pasteur-0j1ipi`), commit `2c97d4e` `[UPDATE to the final commit hash after your last push]` |
+| **Team Name** | Code Crushers |
+| **Team Members** | Pratham Datta (1RUA24CSE0324); Rahul V KUMAR (1RAU24CSE0353); Rajath MS (1RUA24CSE0354) |
+| **GitHub Repository** | https://github.com/PrathamDatta/HACKATHON_CV (branch `claude/practical-pasteur-0j1ipi`), commit `fe231ea` |
 | **Live Demo / Deployment** | https://hackathoncv-s8pekuxnusulgddjwfqg8d.streamlit.app |
 
 ---

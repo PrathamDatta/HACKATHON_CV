@@ -1,4 +1,4 @@
-USN1,USN2,USN3,USN4
+1RUA24CSE0324,1RAU24CSE0353,1RUA24CSE0354
 
 # eval_P4_T01: Edge-Preserving Depth Map Upsampling and Refinement
 
