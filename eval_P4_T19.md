@@ -1,6 +1,6 @@
 1RUA24CSE0324,1RAU24CSE0353,1RUA24CSE0354
 
-# eval_P4_T01: Edge-Preserving Depth Map Upsampling and Refinement
+# eval_P4_T19: Edge-Preserving Depth Map Upsampling and Refinement
 
 Dataset: NYU Depth V2 (1,449 labelled frames). Split (contiguous scene blocks): train 0-799, val 800-999, **test 1000-1448 (never used for training, validation or tuning)**. Depth assumed = raw x 10 m. Metrics are means over test frames. RMSE/MAE in cm. PSNR peak = per-image GT max depth. Boundary band = +/-3 px around GT discontinuities (|grad| > 0.12 m/px). Edge F1 uses 2 px tolerance.
 

@@ -1,6 +1,6 @@
 """Aggregate results -> summary.json, eval_P4_<team>.md, figures.
 
-    python -m depthup.report --team T01 --usns "1XX23CS001,1XX23CS002,1XX23CS003"
+    python -m depthup.report --team T19 --usns "1RUA24CSE0324,1RAU24CSE0353,1RUA24CSE0354"
 """
 from __future__ import annotations
 
@@ -222,7 +222,7 @@ def fig_boundary(idx=1330, scale=8):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--team", default="T01")
+    ap.add_argument("--team", default="T19")
     ap.add_argument("--usns", default="USN1,USN2,USN3,USN4")
     ap.add_argument("--no-figs", action="store_true")
     a = ap.parse_args()

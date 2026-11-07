@@ -23,7 +23,7 @@ Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing value
 | noisy+holes, 4x (n=150) | 8.90 | 7.75 | 6.37 | 5.48 | 4.72 | 4.72 | **3.82** |
 | noisy+holes, 8x (n=150) | 11.31 | 10.23 | 9.13 | 8.21 | 7.58 | 7.58 | **6.11** |
 
-* All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T01.md`**.
+* All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T19.md`**.
 * **Best arm per protocol (generated from the table):** `clean`: Deep only-L (GPU) best at 3/3 scales; `noisy`: Deep only-L (GPU) best at 3/3 scales; `noisy+holes`: Deep only-L (GPU) best at 3/3 scales.
 * **Large GPU-trained deep-only model (`dl_only_L`, about 9 M parameters, 12,350 steps, batch 16, 256 px crops, bf16 + EMA, trained on frames 0-949):** it has the lowest RMSE and boundary RMSE in every protocol and scale, e.g. 31% lower RMSE than the small deep-only model at clean 8x and 30% lower at noisy+holes 4x. **A large hybrid (`hybrid_L`) was not trained for lack of time**, so whether the classical features help a *large* model is untested; the only evidence on that question is at small-model scale (next bullet).
 * **Small CPU-trained models (0.22 M parameters):** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
@@ -56,7 +56,7 @@ The app has two modes: **simulate** (RGB + dense depth: it degrades the depth an
 | `depthup/io.py` | validated loading of user uploads |
 | `app.py`, `Dockerfile`, `.streamlit/` | web app and deployment |
 | `docs/architecture.png`, `DESIGN.md`, `ABLATION.md`, `FAILURES.md` | architecture and design documentation |
-| `eval_P4_T01.md` | comparative evaluation (rename with your team id) |
+| `eval_P4_T19.md` | comparative evaluation |
 
 ## Data, ethics and limitations
 Data split: the small models trained on frames 0-799 and validated on 800-999; the large model trained on 0-949 and validated on 950-999; **frames 1000-1448 (test) were never used for training, validation or tuning by any model**. NYU Depth V2 is licensed for research use; the six sample frames in `samples/` are test-split frames included for the demo. The model was trained on indoor Kinect scenes only and is untested on outdoor, LiDAR or real low-resolution ToF data; the corruption model is synthetic. Depth upsampling output must not be treated as a measurement in safety-critical settings: reconstructed boundaries are estimates, and thin structures narrower than one low-resolution cell are not recoverable (see `docs/FAILURES.md`).

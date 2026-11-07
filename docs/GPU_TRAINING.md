@@ -39,7 +39,7 @@ What it does, in order (each stage writes `results/gpu_run/<stage>.done`; re-run
 3. train `dl_only_L`, `hybrid_L` (and seed-2 `*_L2` for the ensemble): bf16 autocast, EMA weights, crops 256, train frames 0-949, validation frames 950-999, **test frames 1000-1448 never touched**
 4. evaluate every arm on the **full 449-frame test split for all three protocols** (GPU inference, parallel CPU workers)
 5. CPU latency/memory benchmark (on purpose CPU: that is what a free web host runs)
-6. ablations (200 test frames), 7. failure analysis, 8. report + regenerate `eval_P4_T01.md`, `README.md`, `docs/ABLATION.md`, `docs/FAILURES.md`, figures
+6. ablations (200 test frames), 7. failure analysis, 8. report + regenerate `eval_P4_T19.md`, `README.md`, `docs/ABLATION.md`, `docs/FAILURES.md`, figures
 9. bundle: `gpu_results.zip`
 
 Set the team details for the eval file header before running (optional, can be done later):

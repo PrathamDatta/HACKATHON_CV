@@ -148,7 +148,7 @@ Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing value
 
 {headline()}
 
-* All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T01.md`**.
+* All numbers come from `results/` and are reproduced by `scripts/reproduce.sh`; full metrics (MAE, PSNR, SSIM, boundary RMSE, edge F1, texture-copy RMSE, latency, memory, paired bootstrap CIs) are in **`eval_P4_T19.md`**.
 * **Best arm per protocol (generated from the table):** {best_arms()}.
 {L_NOTE}
 * **Small CPU-trained models (0.22 M parameters):** every learned arm is far better than interpolation. On pristine input the deep-only model is marginally better than the hybrid at 4x and 8x; with noise and missing values the hybrid is clearly better (by 8 to 14% RMSE). The classical stage alone sharpens boundaries (edge F1 0.76 vs 0.45 at 8x) but does not reduce RMSE on clean input. Details and negative results: `docs/ABLATION.md`, `docs/FAILURES.md`.
@@ -181,7 +181,7 @@ The app has two modes: **simulate** (RGB + dense depth: it degrades the depth an
 | `depthup/io.py` | validated loading of user uploads |
 | `app.py`, `Dockerfile`, `.streamlit/` | web app and deployment |
 | `docs/architecture.png`, `DESIGN.md`, `ABLATION.md`, `FAILURES.md` | architecture and design documentation |
-| `eval_P4_T01.md` | comparative evaluation (rename with your team id) |
+| `eval_P4_T19.md` | comparative evaluation |
 
 ## Data, ethics and limitations
 Data split: the small models trained on frames 0-799 and validated on 800-999; the large model trained on 0-949 and validated on 950-999; **frames 1000-1448 (test) were never used for training, validation or tuning by any model**. NYU Depth V2 is licensed for research use; the six sample frames in `samples/` are test-split frames included for the demo. The model was trained on indoor Kinect scenes only and is untested on outdoor, LiDAR or real low-resolution ToF data; the corruption model is synthetic. Depth upsampling output must not be treated as a measurement in safety-critical settings: reconstructed boundaries are estimates, and thin structures narrower than one low-resolution cell are not recoverable (see `docs/FAILURES.md`).

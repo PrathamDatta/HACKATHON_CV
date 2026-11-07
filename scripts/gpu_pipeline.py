@@ -150,7 +150,7 @@ def main():
     for name, cmd in [("5_benchmark", [PY, "-m", "depthup.benchmark"]),
                       ("6_ablate", [PY, "-m", "depthup.ablate", "--n", 20 if a.smoke else a.ablation_frames, "--device", device, "--procs", a.eval_procs]),
                       ("7_failures", [PY, "-m", "depthup.failures", "--kind", "hybrid_L", "--device", device]),
-                      ("8_report", [PY, "-m", "depthup.report", "--team", os.environ.get("TEAM", "T01"),
+                      ("8_report", [PY, "-m", "depthup.report", "--team", os.environ.get("TEAM", "T19"),
                                     "--usns", os.environ.get("USNS", "USN1,USN2,USN3,USN4")]),
                       ("8_docs", [PY, "scripts/make_docs.py"])]:
         done, mk = stage(name)

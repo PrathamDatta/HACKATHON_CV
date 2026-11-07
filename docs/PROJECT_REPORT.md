@@ -191,7 +191,7 @@ DKN (deformable kernel networks, arXiv 1903.11286): texture copy from regular sa
 | `app.py`, `Dockerfile`, `.streamlit/` | web app and deployment |
 | `scripts/` | data prep, `reproduce.sh`, `gpu_pipeline.py`, doc generator, diagram |
 | `docs/` | `DESIGN.md`, `ABLATION.md`, `FAILURES.md`, `architecture.png`, `figures/`, GPU guide, handoff prompt |
-| `eval_P4_T01.md` | comparative evaluation file (rename with your team ID) |
+| `eval_P4_T19.md` | comparative evaluation file  |
 | `results/` | raw per-image results, summaries, logs |
 
 ## 15. Glossary
