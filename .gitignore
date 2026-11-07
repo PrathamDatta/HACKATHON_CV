@@ -14,3 +14,4 @@ results/gpu_run/
 .venv/
 report/*.pdf
 report/*.html
+report/*.docx
