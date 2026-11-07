@@ -58,7 +58,7 @@ models = warm()
 if not (models["hybrid"] and models["dl_only"]):
     st.warning("Trained weights not found — learned methods are disabled. Run `python -m depthup.train`.")
 names_available = [n for n in SHOW if (n not in models or models[n])]
-DEFAULT_METHODS = [n for n in ("bicubic", "jbu", "classical", "dl_only", "hybrid", "auto_L" if "auto_L" in names_available else "auto") if n in names_available]
+DEFAULT_METHODS = [n for n in ("bicubic", "jbu", "classical", "dl_only", "hybrid", "auto", "dl_only_L", "auto_L") if n in names_available]
 
 quick = st.button("▶ Reconstruct  (uses the sidebar settings; a sample at 4× by default)", type="primary", use_container_width=True)
 msg = st.container()     # errors appear here, above the tabs, so they are never off-screen
