@@ -160,7 +160,7 @@ Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing value
 ## Run it
 
 ```bash
-pip install -r requirements.txt            # CPU is enough
+pip install -r requirements.txt            # CPU is enough (use requirements-dev.txt to also reproduce experiments / run tests)
 streamlit run app.py                       # http://localhost:8501  (weights and sample frames are in the repo)
 ```
 or `docker build -t edgegate . && docker run -p 8501:8501 edgegate`.

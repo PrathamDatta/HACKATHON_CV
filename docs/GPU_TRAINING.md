@@ -10,7 +10,7 @@ python -m venv .venv                                  # Python 3.11 or 3.12
 # Windows: .venv\Scripts\activate        Linux/macOS: source .venv/bin/activate
 pip install --upgrade pip
 pip install torch --index-url https://download.pytorch.org/whl/cu128     # RTX 5080 (Blackwell) needs a CUDA 12.8 build
-pip install -r requirements.txt                       # torch is already satisfied by the CUDA wheel above, so it is not replaced
+pip install -r requirements-dev.txt                   # torch is already satisfied by the CUDA wheel above, so it is not replaced
 python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"   # must print True + RTX 5080
 ```
 If `cuda.is_available()` is False: update the NVIDIA driver (needs a Blackwell-capable driver, 570+), and make sure the wheel is the `cu128` build, not the CPU build. (`requirements.txt` lists `torch` unpinned so the CUDA wheel installed above is kept.)

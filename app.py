@@ -26,12 +26,14 @@ div[data-testid="stMetricValue"]{font-size:1.4rem}</style>""", unsafe_allow_html
 @st.cache_resource(show_spinner="Loading models…")
 def warm():
     ok = {}
-    for k in ("hybrid", "dl_only", "hybrid_L", "dl_only_L"):
+    for k in ("hybrid", "dl_only"):
         try:
             pipeline.load_model(k)
             ok[k] = True
         except FileNotFoundError:
             ok[k] = False
+    for k in ("hybrid_L", "dl_only_L"):          # large models are loaded lazily (only when selected) to keep startup memory low
+        ok[k] = (pipeline.WEIGHTS / f"{k}.pt").exists()
     ok["auto"] = ok["hybrid"] and ok["dl_only"]
     ok["auto_L"] = ok["hybrid_L"] and ok["dl_only_L"]
     return ok

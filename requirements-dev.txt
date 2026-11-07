@@ -1,0 +1,5 @@
+-r requirements.txt
+matplotlib>=3.8
+h5py>=3.10
+pytest>=8.0
+huggingface_hub>=0.24
