@@ -33,7 +33,8 @@ box(5.1, 4.5, 2.4, 1.2, "3  Step detector + gate G", "classical.lr_discontinuity
 box(7.9, 4.5, 2.4, 1.2, "4  Gated tri-lateral JBU", "classical.jbu   ◆RGB\nsigma_c = f(G), depth term\n= expert E1", GREEN, True)
 box(2.5, 2.7, 2.2, 1.1, "2  Bicubic base", "classical.bicubic_up\n= expert E0", GREEN)
 box(7.9, 2.2, 2.4, 1.9, "5  HybridNet (U-Net)", "model.HybridNet   ◆RGB\n10 input channels:\nrgb, E0, E1, snap, G,\nedge map, conf, scale\n-> residual δ + blend β", RED, True)
-box(11.2, 3.0, 2.6, 2.7, "6  Learned blend + residual", "out = E0 + β·(E1 − E0) + δ\nβ = per-pixel sigmoid in [0, 1]\nβ = 0 gives the deep-only model\n(pipeline.run_hybrid)", RED, True)
+box(11.2, 3.0, 2.6, 2.7, "6  Learned blend + residual", "out = E0 + β·(E1 − E0) + δ\nβ = per-pixel sigmoid in [0, 1]\nβ = 0: same form as deep-only
+(pipeline.run_hybrid)", RED, True)
 box(11.2, 6.05, 2.6, 0.9, "High-res depth", "", TEAL)
 box(0.2, 0.5, 3.1, 1.3, "RGB guidance (HR)", "io.read_rgb\n◆ = stage that reads it (4, 5, snap)", AMBER)
 box(3.7, 0.1, 7.9, 1.3, "Other arms (pipeline.METHODS)", "nearest · bilinear · bicubic · JBU · guided · classical (= E1)\ndl_only / dl_only_L: RGB + bicubic only (0.22 M or 9 M params; large is best)\nauto (pipeline.run_auto): dl_only if pristine input, hybrid if noisy or incomplete", PURPLE)

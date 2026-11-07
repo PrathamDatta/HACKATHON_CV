@@ -54,7 +54,7 @@ All in `depthup/classical.py`.
 ## 6. The learned stage
 * **Network** (`depthup/model.py`): a 3-level U-Net with GroupNorm + GELU and a dilated bottleneck (dilations 2, 4, 8 to see large context, important at 8x). 0.22 M parameters, 0.86 MB file.
 * **Hybrid inputs (10 channels):** RGB (3), E0, E1, snap candidate, gate G, RGB edge magnitude, confidence, scale/8. **Output:** residual delta and blend logit.
-* **Formula:** `out = E0 + beta*(E1 - E0) + delta`. With beta = 0 this is exactly the deep-only model, so the hybrid cannot be *structurally* worse than deep-only.
+* **Formula:** `out = E0 + beta*(E1 - E0) + delta`. With beta = 0 the output has the same form as the deep-only model (bicubic plus a learned residual), so the hybrid can represent that solution; training does not guarantee it matches it (on clean input the small hybrid ended slightly worse).
 * **Deep-only baseline:** same backbone, inputs RGB + bicubic depth + scale only (5 channels), output = bicubic + residual. It is the fair test of whether classical features add anything.
 * **Training** (`depthup/train.py`): random 128x128 crops, random scale in {2,4,8}, on-the-fly degradation (50% clean, 25% noisy, 25% noisy+holes, random magnitudes), flips. **Loss** = L1 weighted 7x on GT discontinuities + 0.5 x gradient-matching L1 (so edges are learned, not just averaged). AdamW, cosine learning rate. Both models got equal step budgets (6,200 vs 6,206) after we noticed an unfair comparison earlier.
 * **Auto** (`pipeline.run_auto`): no holes and estimated noise < 1.2 cm -> deep-only; else hybrid.

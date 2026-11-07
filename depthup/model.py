@@ -73,8 +73,7 @@ class HybridNet(nn.Module):
         out = E0 + beta * (E1 - E0) + delta
 
     E0 = clean bicubic, E1 = classical gated JBU, beta in [0,1] = learned per-pixel trust in the classical
-    sharpening, delta = learned residual. With beta = 0 this is exactly the deep-only model, so the hybrid
-    can never be forced below it by its structure. Returns (out, E0 + delta, weights) where weights =
+    sharpening, delta = learned residual. With beta = 0 the output has the same form as the deep-only model (bicubic plus a learned residual), so the hybrid can represent that solution; training does not guarantee it matches it. Returns (out, E0 + delta, weights) where weights =
     [1 - beta, beta, |delta| clipped at 20 cm] for visualisation.
     """
     C_IN = 10

@@ -7,7 +7,7 @@ app_port: 8501
 
 Turns sparse or low-resolution depth (2x / 4x / 8x, with noise and missing values) into dense high-resolution depth, using RGB guidance **without copying RGB texture into depth**.
 
-**Approach in one paragraph.** A classical stage cleans the depth (hole filling, spike removal, noise-adaptive smoothing), detects *depth discontinuities* with a step detector, and lets RGB influence the result **only near those discontinuities** (a gated, tri-lateral joint bilateral upsampling). A small U-Net (0.22 M parameters) then predicts a residual and a per-pixel blend β between the safe bicubic estimate and the sharp classical one: `out = E0 + β (E1 − E0) + δ`. Because β = 0 recovers the deep-only model, the hybrid cannot be structurally worse than it. An **Auto** selector uses the deep-only model for pristine input and the hybrid for noisy or incomplete input.
+**Approach in one paragraph.** A classical stage cleans the depth (hole filling, spike removal, noise-adaptive smoothing), detects *depth discontinuities* with a step detector, and lets RGB influence the result **only near those discontinuities** (a gated, tri-lateral joint bilateral upsampling). A small U-Net (0.22 M parameters) then predicts a residual and a per-pixel blend β between the safe bicubic estimate and the sharp classical one: `out = E0 + β (E1 − E0) + δ`. Because β = 0 gives the same form as the deep-only model (bicubic plus a learned residual), the hybrid can represent that solution; training does not guarantee it matches it (on clean input the small hybrid ended slightly worse). An **Auto** selector uses the deep-only model for pristine input and the hybrid for noisy or incomplete input.
 
 ## Results (NYU Depth V2, held-out test frames; RMSE in cm, lower is better)
 
