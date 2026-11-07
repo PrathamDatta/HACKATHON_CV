@@ -32,8 +32,14 @@ def warm():
             ok[k] = True
         except FileNotFoundError:
             ok[k] = False
-    for k in ("hybrid_L", "dl_only_L"):          # large models are loaded lazily (only when selected) to keep startup memory low
-        ok[k] = (pipeline.WEIGHTS / f"{k}.pt").exists()
+    for k in ("hybrid_L", "dl_only_L"):          # large models: load at startup so the first Reconstruct is not slow
+        try:
+            pipeline.load_model(k)
+            ok[k] = True
+        except FileNotFoundError:
+            ok[k] = False
+        except Exception:                        # e.g. out of memory on a tiny host: the app still works with the small models
+            ok[k] = False
     ok["auto"] = ok["hybrid"] and ok["dl_only"]
     ok["auto_L"] = ok["hybrid_L"] and ok["dl_only_L"]
     return ok
@@ -131,11 +137,7 @@ if go:
             with st.spinner("Reconstructing…"):
                 job = prepare()
                 outs, lat = run_methods(job["lr"], job["valid"], job["rgb"], job["scale"], methods)
-                extra = None
-                hk = "hybrid_L" if models.get("hybrid_L") else "hybrid"
-                if models.get(hk):
-                    _, extra = pipeline.run_hybrid(job["lr"], job["valid"], job["rgb"], job["scale"], return_all=True, kind=hk)
-            state["job"], state["outs"], state["lat"], state["extra"] = job, outs, lat, extra
+            state["job"], state["outs"], state["lat"], state["extra"] = job, outs, lat, None   # stages are computed on demand
         except dio.InputError as e:
             msg.error(str(e))
         except Exception as e:  # never show a stack trace to a judge
@@ -197,8 +199,18 @@ with tab_run:
 
 with tab_stages:
     ex = state.get("extra")
-    if not job or ex is None:
-        st.info("Run a reconstruction (with the hybrid model available) to see intermediate stages.")
+    if not job:
+        st.info("Run a reconstruction first, then come back here to see the intermediate stages.")
+    elif ex is None:
+        st.write("The intermediate stages (discontinuity map, gate, learned blend and residual) take a couple of extra seconds to compute.")
+        if st.button("Compute intermediate stages", type="primary"):
+            hk = "hybrid_L" if models.get("hybrid_L") else "hybrid"
+            if not models.get(hk):
+                st.error("The hybrid model weights are not available.")
+            else:
+                with st.spinner("Computing stages…"):
+                    _, state["extra"] = pipeline.run_hybrid(job["lr"], job["valid"], job["rgb"], job["scale"], return_all=True, kind=hk)
+                st.rerun()
     else:
         o, w, rgb = ex["classical"], ex["weights"], job["rgb"]
         st.markdown("**Pipeline:** clean LR → bicubic base → depth-discontinuity detection → RGB gate → "
