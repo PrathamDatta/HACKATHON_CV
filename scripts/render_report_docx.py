@@ -67,11 +67,13 @@ def polish(path):
             shd.set(qn("w:fill"), "E7E6E6")
             tcPr.append(shd)
     from docx.shared import RGBColor
-    for name in ("Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4"):      # pandoc's default theme uses blue headings
-        try:
-            doc.styles[name].font.color.rgb = RGBColor(0, 0, 0)
-        except KeyError:
-            pass
+    wanted = {"title", "heading 1", "heading 2", "heading 3", "heading 4", "subtitle"}
+    for st in doc.styles:                       # pandoc's default theme uses blue headings; match names case-insensitively
+        if st.name and st.name.lower() in wanted:
+            rpr = st.element.get_or_add_rPr()
+            for el in rpr.findall(qn("w:color")):
+                rpr.remove(el)
+            st.font.color.rgb = RGBColor(0, 0, 0)
     doc.save(str(path))
 
 
