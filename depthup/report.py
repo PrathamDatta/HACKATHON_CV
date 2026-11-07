@@ -1,6 +1,6 @@
 """Aggregate results -> summary.json, eval_P4_<team>.md, figures.
 
-    python -m depthup.report --team T19 --usns "1RUA24CSE0324,1RAU24CSE0353,1RUA24CSE0354"
+    python -m depthup.report --team T19 --usns "1RUA24CSE0324,1RUA24CSE0353,1RUA24CSE0354"
 """
 from __future__ import annotations
 
